@@ -276,7 +276,7 @@
             <div class="product-description">
                 {{ $product->about }}
             </div>
-            <a href="#" class="btn-full">Tambah ke Keranjang</a>
+            <a href="#" class="btn-full">Checkout</a>
         </div>
 
         <div class="product-reviews">
