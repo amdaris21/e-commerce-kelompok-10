@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Seller\ProductCategoryController;
+use App\Http\Controllers\Seller\ProductController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,4 +19,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::middleware(['auth', 'verified'])->prefix('seller/dashboard')->name('seller.')->group(function () {
+    Route::get('/', [ProductController::class, 'dashboard'])->name('dashboard');
+    Route::resource('categories', ProductCategoryController::class);
+    Route::resource('products', ProductController::class);
+});
+
+require __DIR__ . '/auth.php';
