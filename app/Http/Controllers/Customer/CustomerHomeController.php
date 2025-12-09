@@ -64,7 +64,14 @@ class CustomerHomeController extends Controller
         'products' => $products,
         'keyword' => $keyword
     ]);
-
 }
+
+    public function show($id)
+    {
+    $product = Product::with(['category', 'images', 'thumbnail', 'productReviews.user'])->findOrFail($id);
+    return view('customer.product_detail', compact('product'));
+    }
+
+
 
 }
