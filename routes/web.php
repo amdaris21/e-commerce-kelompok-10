@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Seller\ProductCategoryController;
 use App\Http\Controllers\Seller\ProductController;
 use App\Http\Controllers\Customer\CustomerHomeController;
+use App\Http\Controllers\Customer\TransactionController;
+
 
 
 Route::get('/', [CustomerHomeController::class, 'index'])->name('customer.home');
@@ -29,5 +31,7 @@ Route::get('/search', [CustomerHomeController::class, 'search'])->name('customer
 
 Route::get('/products/{id}', [CustomerHomeController::class, 'show'])->name('customer.product.show');
 
+Route::get('/transaction/{product}', [TransactionController::class, 'show'])->name('transaction.show');
+Route::post('/transaction/process', [TransactionController::class, 'process'])->name('transaction.process')->middleware('auth');
 
 require __DIR__ . '/auth.php';

@@ -276,7 +276,7 @@
             <div class="product-description">
                 {{ $product->about }}
             </div>
-            <a href="#" class="btn-full">Checkout</a>
+            <a href="{{ route('transaction.show', $product->id) }}" class="btn-full">Checkout</a>
         </div>
 
         <div class="product-reviews">
@@ -293,6 +293,7 @@
             @endforelse
         </div>
     </div>
+
 </main>
 
 <footer>
