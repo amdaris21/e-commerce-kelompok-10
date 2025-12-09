@@ -4,10 +4,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Seller\ProductCategoryController;
 use App\Http\Controllers\Seller\ProductController;
+use App\Http\Controllers\Customer\CustomerHomeController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [CustomerHomeController::class, 'index'])->name('customer.home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
