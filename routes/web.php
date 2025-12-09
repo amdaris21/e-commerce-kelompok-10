@@ -25,4 +25,7 @@ Route::middleware(['auth', 'verified'])->prefix('seller/dashboard')->name('selle
     Route::resource('products', ProductController::class);
 });
 
+Route::get('/search', [CustomerHomeController::class, 'search'])->name('customer.search');
+
+
 require __DIR__ . '/auth.php';

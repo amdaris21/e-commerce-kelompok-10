@@ -1,7 +1,7 @@
 <x-app-layout>
 
-
 <style>
+    /* Salin seluruh blok <style> dari home.blade.php di sini untuk konsistensi */
     :root{
         --bg: #0B0B0B;
         --panel: #121212;
@@ -93,7 +93,7 @@
         padding: 10px 12px 10px 34px;
         border-radius: 18px;
         border: 1px solid var(--garis);
-        background: #e7e7e7ff;
+        background: var(--panel);
         color: var(--teks);
         outline: none;
     }
@@ -127,53 +127,51 @@
         border: 1px solid #EAEAEA;
     }
 
-    .hero{
-        padding-top: 18px;
+    .section{
+        margin-top: 32px;
+    }
+    .section-head{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+    }
+    .section-title{
+        font-size: 28px;
+        font-weight: 900;
+        color: var(--teks);
+    }
+    .section-link{
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+    }
+    .section-link:hover{
+        color: var(--teks);
     }
 
-    .hero-card{
+    .chips{
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+    }
+    .chip{
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: var(--panel);
         border: 1px solid var(--garis);
-        border-radius: 28px;
-        background: linear-gradient(135deg, #1A1A1A, #0F0F0F 55%, #0B0B0B);
-        padding: 18px;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 18px;
-        overflow:hidden;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        transition: .2s;
     }
-    @media (min-width: 900px){
-        .hero-card{
-            grid-template-columns: 1.15fr .85fr;
-            padding: 26px;
-            gap: 26px;
-        }
+    .chip.active{
+        background: var(--putih);
+        color: var(--hitam);
     }
-
-    .hero-pill{
-        display:inline-flex;
-        gap:8px;
-        padding:8px 12px;
-        font-size:12px;
-        border-radius:999px;
-        background:var(--panel);
-        border:1px solid var(--garis);
-        color:var(--muted);
-    }
-    .hero-title{
-        margin:14px 0 0;
-        font-size:34px;
-        font-weight:1000;
-        line-height:1.05;
-    }
-    @media(min-width:900px){
-        .hero-title{ font-size:52px;}
-    }
-    .hero-title span{ color:var(--muted);}
-
-    .hero-desc{
-        margin-top:10px;
-        color:var(--muted);
-        max-width:58ch;
+    .chip:hover{
+        background: var(--panel2);
     }
 
     .product-grid{
@@ -190,52 +188,12 @@
 
     .product-card{
         border:1px solid var(--garis);
-        background:var(--panel);
-        border-radius:22px;
-        overflow:hidden;
-        transition:.18s ease;
-    }
-    .product-card:hover{
-        border-color:var(--garis2);
-        background:var(--panel2);
-    }
-
-    .product-photo{
-        display:block;
-        background:#0E0E0E;
-        aspect-ratio:1/1;
-    }
-    .product-photo img{
-        width:100%;
-        height:100%;
-        object-fit:cover;
-    }
-
-    .empty{
-        grid-column:1 / -1;
-        text-align:center;
-        padding:24px;
-        color:var(--muted2);
-    }
-
-    footer{
-        border-top:1px solid var(--garis);
-        padding:18px;
-        text-align:center;
-        color:var(--muted2);
-        font-size:13px;
-        margin-top:16px;
-    }
-
-    .product-card{
-        border:1px solid var(--garis);
         background: linear-gradient(180deg, #161616, #0E0E0E);
         border-radius:22px;
         overflow:hidden;
         transition:.25s ease;
         position:relative;
     }
-
     .product-card:hover{
         border-color:#444;
         background:linear-gradient(180deg, #1B1B1B, #0D0D0D);
@@ -251,14 +209,12 @@
         border-bottom:1px solid #1E1E1E;
         overflow:hidden;
     }
-
     .product-photo img{
         width:100%;
         height:100%;
         object-fit:cover;
         transition:0.4s ease;
     }
-
     .product-card:hover .product-photo img{
         transform:scale(1.06);
     }
@@ -266,7 +222,6 @@
     .product-body{
         padding:16px 18px 20px;
     }
-
     .product-category{
         font-size:12px;
         color:var(--muted2);
@@ -274,27 +229,23 @@
         letter-spacing:.5px;
         margin-bottom:4px;
     }
-
     .product-name{
         font-size:16px;
         font-weight:700;
         margin-bottom:8px;
         color:var(--putih);
     }
-
     .product-row{
         display:flex;
         align-items:center;
         justify-content:space-between;
         margin-bottom:12px;
     }
-
     .product-price{
         font-size:17px;
         font-weight:800;
         color:var(--putih);
     }
-
     .btn-full{
         display:block;
         width:100%;
@@ -304,13 +255,49 @@
         padding:10px 0;
         transition:.2s;
     }
-
     .btn-full:hover{
         transform:translateY(-2px);
     }
 
-</style>
+    .empty{
+        grid-column:1 / -1;
+        text-align:center;
+        padding:24px;
+        color:var(--muted2);
+    }
 
+    .pagination{
+        margin-top: 32px;
+        display: flex;
+        justify-content: center;
+    }
+
+    footer{
+        border-top:1px solid var(--garis);
+        padding:18px;
+        text-align:center;
+        color:var(--muted2);
+        font-size:13px;
+        margin-top:16px;
+    }
+
+    /* Filter tambahan untuk search (opsional) */
+    .filter-row{
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 18px;
+        flex-wrap: wrap;
+    }
+    .filter-input{
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid var(--garis);
+        background: var(--panel);
+        color: var(--teks);
+        font-size: 14px;
+    }
+</style>
 
 <header>
     <div class="container header-bar">
@@ -322,11 +309,10 @@
             </div>
         </a>
 
-    <form class="search" action="{{ route('customer.search') }}" method="GET">
-        <div class="search-icon">⌕</div>
-        <input type="text" name="q" placeholder="Cari aksesoris y2k..." required>
-    </form>
-
+        <form class="search" action="{{ route('customer.search') }}" method="GET">
+            <div class="search-icon">⌕</div>
+            <input type="text" name="q" placeholder="Cari aksesoris y2k..." value="{{ $keyword }}" required>
+        </form>
 
         <div class="auth">
             <a class="btn btn-outline" href="{{ route('login') }}">Log in</a>
@@ -335,110 +321,74 @@
     </div>
 </header>
 
-
 <main>
-
-    <section class="container hero">
-        <div class="hero-card">
-            <div>
-                <div class="hero-pill">early-2000s spirit • bold monochrome • glitchy</div>
-                <h1 class="hero-title">Y2K <span>ACCESSORIES DROP</span></h1>
-                <p class="hero-desc">
-                    Our accessory focus: ring, necklace, bracelet & charms.
-                </p>
-                <div class="hero-actions">
-                    <a class="btn btn-solid" href="#produk">Shop Now</a>
-                    <a class="btn btn-outline" href="#new">New Arrivals</a>
-                </div>
-            </div>
-
-            <div>
-                <div class="hero-box">
-                    <div class="hero-box-top">
-                        <span>FEATURED</span>
-                        <span class="mini-tag">LIMITED</span>
-                    </div>
-                    <div class="hero-grid">
-                        <div class="hero-tile"></div>
-                        <div class="hero-tile"></div>
-                        <div class="hero-tile"></div>
-                        <div class="hero-tile"></div>
-                        <div class="hero-tile"></div>
-                        <div class="hero-tile"></div>
-                    </div>
-                </div>
-
-                <div class="stamp">⚡ Drop terbaru minggu ini</div>
-            </div>
-        </div>
-    </section>
-
     <section class="container section">
+        {{-- SEARCH TITLE --}}
         <div class="section-head">
-            <h2 class="section-title">Kategori</h2>
-            <a class="section-link" href="{{ route('customer.home') }}">Reset</a>
+            <h2 class="section-title">Hasil Pencarian: “{{ $keyword }}”</h2>
+            <div style="color: var(--muted2); font-size: 14px;">
+                {{ $products->total() }} produk ditemukan
+            </div>
         </div>
 
-        <div class="chips">
-            <a class="chip {{ request('category') ? '' : 'active' }}" href="{{ route('customer.home') }}">Semua</a>
+        {{-- FILTER OPSIONAL (untuk nilai tambah) --}}
+        <form class="filter-row" action="{{ route('customer.search') }}" method="GET">
+            <input type="hidden" name="q" value="{{ $keyword }}">
+            <input class="filter-input" type="number" name="min_price" placeholder="Harga Min" value="{{ request('min_price') }}">
+            <input class="filter-input" type="number" name="max_price" placeholder="Harga Max" value="{{ request('max_price') }}">
+            <select class="filter-input" name="sort">
+                <option value="">Urutkan</option>
+                <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Harga Terendah</option>
+                <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Harga Tertinggi</option>
+                <option value="name_asc" {{ request('sort') == 'name_asc' ? 'selected' : '' }}>Nama A-Z</option>
+            </select>
+            <button class="btn btn-solid" type="submit">Filter</button>
+        </form>
 
-            @foreach($categories as $cat)
-                <a class="chip {{ (string)request('category') === (string)$cat->id ? 'active' : '' }}"
-                   href="{{ route('customer.home', ['category' => $cat->id]) }}">
-                    {{ $cat->name }}
-                </a>
-            @endforeach
-        </div>
-    </section>
-
-    <section id="produk" class="container section">
-        <div class="section-head">
-            <h2 class="section-title">Trending Accessories</h2>
-        </div>
-
+        {{-- PRODUCT GRID --}}
         <div class="product-grid">
             @forelse($products as $product)
                 @php
-                    $imgPath = null;
-                    if ($product->thumbnail && !empty($product->thumbnail->image)) {
-                        $imgPath = $product->thumbnail->image;
-                    } elseif ($product->images && $product->images->first()) {
-                        $imgPath = $product->images->first()->image;
-                    }
-
-                    $imgUrl = $imgPath ? asset('storage/'.$imgPath) : null;
+                    $imgPath = $product->thumbnail->image 
+                        ?? ($product->images->first()->image ?? null);
+                    $imgUrl = $imgPath ? asset('storage/'.$imgPath) : asset('images/default-product.png');
                 @endphp
 
                 <article class="product-card">
                     <a class="product-photo" href="{{ url('/products/'.$product->id) }}">
-                        @if($imgUrl)
-                            <img src="{{ $imgUrl }}" alt="{{ $product->name }}">
-                        @else
-                            <div class="no-photo">No Image</div>
-                        @endif
+                        <img src="{{ $imgUrl }}" alt="{{ $product->name }}">
                     </a>
 
                     <div class="product-body">
-                        <div class="product-category">{{ optional($product->category)->name ?? 'Uncategorized' }}</div>
-                        <div class="product-name">{{ $product->name }}</div>
-
-                        <div class="product-row">
-                            <div class="product-price">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
+                        <div class="product-category">
+                            {{ optional($product->category)->name ?? 'Uncategorized' }}
                         </div>
 
-                        <a class="btn btn-solid btn-full" href="{{ url('/products/'.$product->id) }}">Detail →</a>
+                        <div class="product-name">
+                            {{ $product->name }}
+                        </div>
+
+                        <div class="product-row">
+                            <div class="product-price">
+                                Rp {{ number_format($product->price, 0, ',', '.') }}
+                            </div>
+                        </div>
+
+                        <a class="btn btn-solid btn-full" href="{{ url('/products/'.$product->id) }}">
+                            Detail →
+                        </a>
                     </div>
                 </article>
             @empty
-                <div class="empty">Produk tidak ditemukan.</div>
+                <div class="empty">Produk tidak ditemukan untuk "{{ $keyword }}". Coba kata kunci lain.</div>
             @endforelse
         </div>
 
+        {{-- PAGINATION --}}
         <div class="pagination">
             {{ $products->links() }}
         </div>
     </section>
-
 </main>
 
 <footer>
