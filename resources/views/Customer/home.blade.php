@@ -1,18 +1,18 @@
-<x-app-layout>
-
+<x-customer-layout>
 
 <style>
-    :root{
-        --bg: #0B0B0B;
-        --panel: #121212;
-        --panel2: #171717;
-        --garis: #242424;
-        --garis2: #343434;
-        --teks: #F2F2F2;
-        --muted: #B9B9B9;
-        --muted2: #9C9C9C;
+       :root{
+        --bg: #FFFAFB; 
+        --panel: #FFFFFF;
+        --panel2: #FFF0F5; 
+        --garis: #E6D0D8;
+        --garis2: #D1B3BE;
+        --teks: #2D2D2D; 
+        --muted: #666666;
+        --muted2: #888888;
         --putih: #FFFFFF;
         --hitam: #000000;
+        --pink-accent: #FFB6C1;
     }
 
     *{ box-sizing: border-box; }
@@ -34,8 +34,9 @@
         position: sticky;
         top: 0;
         z-index: 50;
-        background: #0B0B0B;
+        background: rgba(255, 250, 251, 0.95);
         border-bottom: 1px solid var(--garis);
+        backdrop-filter: blur(10px);
     }
 
     .header-bar{
@@ -51,7 +52,7 @@
         align-items: center;
         gap: 10px;
         text-decoration: none;
-        color: inherit;
+        color: var(--teks);
     }
     .brand-logo{
         width: 38px;
@@ -59,8 +60,8 @@
         border-radius: 14px;
         display: grid;
         place-items: center;
-        background: var(--putih);
-        color: var(--hitam);
+        background: var(--hitam);
+        color: var(--putih);
         font-weight: 900;
         letter-spacing: .5px;
     }
@@ -70,7 +71,7 @@
     }
     .brand-tag{
         font-size: 12px;
-        color: var(--muted2);
+        color: var(--muted);
         margin-top: 2px;
     }
 
@@ -85,7 +86,7 @@
         left: 12px;
         top: 50%;
         transform: translateY(-50%);
-        color: var(--muted2);
+        color: var(--muted);
         font-size: 14px;
     }
     .search input{
@@ -93,7 +94,7 @@
         padding: 10px 12px 10px 34px;
         border-radius: 18px;
         border: 1px solid var(--garis);
-        background: #e7e7e7ff;
+        background: #FFFFFF;
         color: var(--teks);
         outline: none;
     }
@@ -114,66 +115,287 @@
         font-size: 14px;
     }
     .btn-outline{
-        background: var(--panel);
+        background: transparent;
         border: 1px solid var(--garis);
         color: var(--teks);
     }
     .btn-outline:hover{
         background: var(--panel2);
+        border-color: var(--pink-accent);
     }
     .btn-solid{
-        background: var(--putih);
-        color: var(--hitam);
-        border: 1px solid #EAEAEA;
+        background: var(--hitam);
+        color: var(--putih);
+        border: 1px solid var(--hitam);
+    }
+    .btn-solid:hover {
+        opacity: 0.9;
     }
 
     .hero{
-        padding-top: 18px;
+        padding-top: 24px;
+        padding-bottom: 24px;
     }
 
     .hero-card{
-        border: 1px solid var(--garis);
-        border-radius: 28px;
-        background: linear-gradient(135deg, #1A1A1A, #0F0F0F 55%, #0B0B0B);
-        padding: 18px;
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 32px;
+        background: radial-gradient(100% 200% at 0% 0%, #1a1a1a 0%, #000000 100%);
+        padding: 32px;
         display: grid;
         grid-template-columns: 1fr;
-        gap: 18px;
-        overflow:hidden;
+        gap: 32px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 24px 48px -12px rgba(0,0,0,0.5);
     }
+    
     @media (min-width: 900px){
         .hero-card{
-            grid-template-columns: 1.15fr .85fr;
-            padding: 26px;
-            gap: 26px;
+            grid-template-columns: 1.2fr 0.8fr;
+            padding: 48px;
+            gap: 48px;
+            align-items: center;
         }
     }
 
     .hero-pill{
         display:inline-flex;
         gap:8px;
-        padding:8px 12px;
-        font-size:12px;
+        padding:6px 14px;
+        font-size:11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
         border-radius:999px;
-        background:var(--panel);
-        border:1px solid var(--garis);
-        color:var(--muted);
+        background: rgba(255,255,255,0.05);
+        border:1px solid rgba(255,255,255,0.1);
+        color: var(--garis);
+        margin-bottom: 24px;
+        backdrop-filter: blur(4px);
     }
+    
     .hero-title{
-        margin:14px 0 0;
-        font-size:34px;
-        font-weight:1000;
-        line-height:1.05;
+        margin:0;
+        font-size: 42px;
+        font-weight: 1000;
+        line-height: 0.9;
+        color: var(--putih);
+        text-transform: uppercase;
+        letter-spacing: -1.5px;
     }
     @media(min-width:900px){
-        .hero-title{ font-size:52px;}
+        .hero-title{ font-size: 72px; }
     }
-    .hero-title span{ color:var(--muted);}
+    
+    .hero-title span{ 
+        display: block;
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+    }
 
     .hero-desc{
-        margin-top:10px;
-        color:var(--muted);
-        max-width:58ch;
+        margin-top: 24px;
+        color: var(--muted2);
+        font-size: 16px;
+        line-height: 1.6;
+        max-width: 44ch;
+        font-weight: 400;
+    }
+    
+    .hero-actions {
+        margin-top: 36px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+    
+    .hero-actions .btn {
+        height: 52px;
+        padding: 0 28px;
+        font-size: 15px;
+        border-radius: 99px;
+    }
+    
+    .hero-actions .btn-solid {
+        background: var(--putih);
+        color: var(--hitam);
+        border: 1px solid var(--putih);
+        font-weight: 800;
+    }
+    
+    .hero-actions .btn-solid:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(255,255,255,0.15);
+    }
+
+    .hero-actions .btn-outline {
+        background: transparent;
+        color: var(--putih);
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+    .hero-actions .btn-outline:hover {
+        background: rgba(255,255,255,0.05);
+        border-color: var(--putih);
+    }
+
+    /* Right Side Visuals */
+    .hero-box {
+        background: linear-gradient(145deg, #111, #0a0a0a);
+        border-radius: 24px;
+        border: 1px solid rgba(255,255,255,0.05);
+        padding: 20px;
+        position: relative;
+    }
+    
+    .hero-box-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #555;
+        letter-spacing: 2px;
+    }
+    
+    .mini-tag {
+        background: var(--pink-accent);
+        color: #000;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 10px;
+        font-weight: 900;
+        box-shadow: 0 0 10px rgba(255, 182, 193, 0.4);
+    }
+    
+    .hero-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        aspect-ratio: 16/9;
+    }
+    
+    .hero-tile {
+        background: rgba(255,255,255,0.03);
+        border-radius: 12px;
+        transition: 0.3s;
+        border: 1px solid transparent;
+        overflow: hidden;
+        position: relative;
+    }
+    .hero-tile img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease;
+    }
+    .hero-tile:hover {
+        border-color: rgba(255,255,255,0.3);
+        transform: translateY(-4px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        z-index: 2;
+    }
+    .hero-tile:hover img {
+        transform: scale(1.1);
+    }
+
+    .stamp {
+        margin-top: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        padding: 10px 20px;
+        background: rgba(0,0,0,0.3);
+        color: var(--pink-accent);
+        border: 1px solid rgba(255,182,193, 0.15);
+        border-radius: 16px;
+        font-weight: 600;
+        backdrop-filter: blur(4px);
+    }
+
+    .section {
+        margin-top: 60px;
+    }
+    .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        border-bottom: 2px solid var(--garis);
+        padding-bottom: 12px;
+    }
+    .section-title {
+        font-size: 20px;
+        font-weight: 800;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--teks);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .section-title::before {
+        content: '';
+        display: block;
+        width: 6px;
+        height: 24px;
+        background: var(--pink-accent);
+        border-radius: 4px;
+    }
+    .section-link {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--pink-accent);
+        text-decoration: none;
+        padding: 6px 12px;
+        border-radius: 8px;
+        background: var(--panel);
+        border: 1px solid var(--garis);
+        transition: 0.2s;
+    }
+    .section-link:hover {
+        background: var(--panel2);
+        color: var(--hitam);
+    }
+    .chips {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        padding-bottom: 8px;
+        flex-wrap: wrap;
+        margin-top: 16px;
+    }
+    .chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 24px;
+        border-radius: 99px;
+        border: 1px solid var(--garis);
+        background: var(--putih);
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .chip:hover {
+        background: var(--panel2);
+        color: var(--pink-accent);
+        border-color: var(--pink-accent);
+        transform: translateY(-1px);
+    }
+    .chip.active {
+        background: var(--hitam);
+        color: var(--putih);
+        border-color: var(--hitam);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
     .product-grid{
@@ -309,34 +531,77 @@
         transform:translateY(-2px);
     }
 
+    .slider-container {
+        position: relative;
+        max-width: 1120px;
+        margin: 24px auto 0;
+        border-radius: 28px;
+        overflow: hidden;
+        aspect-ratio: 21/9;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .slider-track {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        height: 100%;
+    }
+    
+    .slide {
+        min-width: 100%;
+        height: 100%;
+        position: relative;
+    }
+    
+    .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .slider-dots {
+        position: absolute;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+        z-index: 10;
+    }
+    .slider-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.5);
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .slider-dot.active {
+        background: #FFF;
+        transform: scale(1.2);
+    }
 </style>
 
 
-<header>
-    <div class="container header-bar">
-        <a class="brand" href="{{ route('customer.home') }}">
-            <div class="brand-logo">Y2K</div>
-            <div>
-                <div class="brand-name">Y2K Accessories</div>
-                <div class="brand-tag">ring • necklace • bracelet • charms</div>
+<main>
+
+    <div class="container">
+        <div class="slider-container">
+            <div class="slider-track" id="sliderTrack">
+                <div class="slide">
+                    <img src="{{ asset('images/banner-sale.jpg') }}" alt="Sale Banner">
+                </div>
+                <div class="slide">
+                    <img src="{{ asset('images/banner-collection.jpg') }}" alt="Collection Banner">
+                </div>
             </div>
-        </a>
-
-    <form class="search" action="{{ route('customer.search') }}" method="GET">
-        <div class="search-icon">⌕</div>
-        <input type="text" name="q" placeholder="Cari aksesoris y2k..." required>
-    </form>
-
-
-        <div class="auth">
-            <a class="btn btn-outline" href="{{ route('login') }}">Log in</a>
-            <a class="btn btn-solid" href="{{ route('register') }}">Register</a>
+            
+            <div class="slider-dots" id="sliderDots">
+                <div class="slider-dot active" data-index="0"></div>
+                <div class="slider-dot" data-index="1"></div>
+            </div>
         </div>
     </div>
-</header>
-
-
-<main>
 
     <section class="container hero">
         <div class="hero-card">
@@ -344,7 +609,7 @@
                 <div class="hero-pill">early-2000s spirit • bold monochrome • glitchy</div>
                 <h1 class="hero-title">Y2K <span>ACCESSORIES DROP</span></h1>
                 <p class="hero-desc">
-                    Our accessory focus: ring, necklace, bracelet & charms.
+                    Our accessory focus: ring, necklace, sunglasses, bracelet & charms.
                 </p>
                 <div class="hero-actions">
                     <a class="btn btn-solid" href="#produk">Shop Now</a>
@@ -359,12 +624,22 @@
                         <span class="mini-tag">LIMITED</span>
                     </div>
                     <div class="hero-grid">
-                        <div class="hero-tile"></div>
-                        <div class="hero-tile"></div>
-                        <div class="hero-tile"></div>
-                        <div class="hero-tile"></div>
-                        <div class="hero-tile"></div>
-                        <div class="hero-tile"></div>
+                        @foreach($products->take(6) as $item)
+                        @php
+                            $hImg = null;
+                            if ($item->thumbnail && !empty($item->thumbnail->image)) {
+                                $hImg = $item->thumbnail->image;
+                            } elseif ($item->images && $item->images->first()) {
+                                $hImg = $item->images->first()->image;
+                            }
+                            $hUrl = $hImg ? asset('storage/'.$hImg) : null;
+                        @endphp
+                        <div class="hero-tile">
+                            @if($hUrl)
+                                <img src="{{ $hUrl }}" alt="Product">
+                            @endif
+                        </div>
+                        @endforeach
                     </div>
                 </div>
 
@@ -441,8 +716,31 @@
 
 </main>
 
-<footer>
-    © {{ date('Y') }} Y2K Accessories — Laravel
-</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const track = document.getElementById('sliderTrack');
+        const dots = document.querySelectorAll('.slider-dot');
+        const slideCount = dots.length;
+        let currentIndex = 0;
+        
+        function updateSlider(index) {
+            track.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[index].classList.add('active');
+            currentIndex = index;
+        }
 
-</x-app-layout>
+        setInterval(() => {
+            let nextIndex = (currentIndex + 1) % slideCount;
+            updateSlider(nextIndex);
+        }, 5000);
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                updateSlider(index);
+            });
+        });
+    });
+</script>
+
+</x-customer-layout>
