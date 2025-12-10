@@ -3,17 +3,24 @@
 namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
-use App\Models\Store;
+use App\Services\StoreService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class StoreController extends Controller
 {
+    protected $storeService;
+
+    public function __construct(StoreService $storeService)
+    {
+        $this->storeService = $storeService;
+    }
 
     public function create()
     {
-        if (Auth::user()->store) {
+        $user = Auth::user();
+
+        if ($user->store) {
             return redirect()->route('seller.store.manage');
         }
 
@@ -23,38 +30,29 @@ class StoreController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-
         if ($user->store) {
-            return redirect()->route('seller.store.manage')->with('error', 'Anda sudah memiliki toko.');
+            return redirect()->back()->with('error', 'Anda sudah memiliki toko.');
         }
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:stores,name',
-            'about' => 'nullable|string',
+            'name' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
             'address' => 'required|string',
-            'city' => 'required|string',
+            'city' => 'required|string|max:255',
             'postal_code' => 'required|string|max:10',
+            'about' => 'nullable|string',
             'logo' => 'nullable|image|max:2048',
         ]);
 
-        $validated['user_id'] = $user->id;
-        $validated['is_verified'] = false;
-        $validated['address_id'] = 1;
-
-        if ($request->hasFile('logo')) {
-            $path = $request->file('logo')->store('store_logos', 'public');
-            $validated['logo'] = 'storage/' . $path;
-        }
-
-        Store::create($validated);
+        $this->storeService->createStore($user->id, $validated, $request->file('logo'));
 
         return redirect()->route('seller.store.manage')->with('success', 'Pendaftaran toko berhasil! Status: Menunggu verifikasi Admin.');
     }
 
-    public function edit()
+    public function manage()
     {
-        $store = Auth::user()->store;
+        $user = Auth::user();
+        $store = $user->store;
 
         if (!$store) {
             return redirect()->route('seller.store.register');
@@ -65,33 +63,24 @@ class StoreController extends Controller
 
     public function update(Request $request)
     {
-        $store = Auth::user()->store;
+        $user = Auth::user();
+        $store = $user->store;
 
         if (!$store) {
-            return redirect()->route('seller.store.register')->with('error', 'Toko tidak ditemukan.');
+            return redirect()->route('seller.store.register');
         }
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:stores,name,' . $store->id,
-            'about' => 'nullable|string',
+            'name' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
             'address' => 'required|string',
-            'city' => 'required|string',
+            'city' => 'required|string|max:255',
             'postal_code' => 'required|string|max:10',
+            'about' => 'nullable|string',
             'logo' => 'nullable|image|max:2048',
         ]);
 
-        if ($request->hasFile('logo')) {
-            if ($store->logo) {
-                $oldPath = str_replace('storage/', '', $store->logo);
-                Storage::disk('public')->delete($oldPath);
-            }
-
-            $path = $request->file('logo')->store('store_logos', 'public');
-            $validated['logo'] = 'storage/' . $path;
-        }
-
-        $store->update($validated);
+        $this->storeService->updateStore($store, $validated, $request->file('logo'));
 
         return redirect()->route('seller.store.manage')->with('success', 'Profil toko berhasil diperbarui.');
     }
@@ -101,12 +90,7 @@ class StoreController extends Controller
         $store = Auth::user()->store;
 
         if ($store) {
-            if ($store->logo) {
-                $path = str_replace('storage/', '', $store->logo);
-                Storage::disk('public')->delete($path);
-            }
-
-            $store->delete();
+            $this->storeService->deleteStore($store);
         }
 
         return redirect()->route('seller.store.register')->with('success', 'Toko Anda berhasil dihapus.');

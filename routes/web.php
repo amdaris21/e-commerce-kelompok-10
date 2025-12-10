@@ -36,7 +36,7 @@ Route::middleware(['auth', 'verified', CheckSeller::class])
         Route::controller(StoreController::class)->group(function () {
             Route::get('/register', 'create')->name('store.register');
             Route::post('/register', 'store')->name('store.store');
-            Route::get('/manage', 'edit')->name('store.manage');
+            Route::get('/manage', 'manage')->name('store.manage');
             Route::put('/manage', 'update')->name('store.update');
             Route::delete('/manage', 'destroy')->name('store.destroy');
         });
