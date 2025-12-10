@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-seller-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Manajemen Produk Toko') }}
@@ -11,9 +11,10 @@
 
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-medium text-gray-900">{{ __('Daftar Produk') }}</h3>
-                    <x-primary-button href="{{ route('seller.products.create') }}">
-                        {{ __('Tambah Produk Baru') }}
-                    </x-primary-button>
+                    <a href="{{ route('seller.products.create') }}"
+                        class="inline-flex items-center px-4 py-2 bg-gray-800 text-white rounded-md uppercase tracking-wide hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition ease-in-out duration-150">
+                        Tambah Produk Baru
+                    </a>
                 </div>
 
                 @if (session('success'))
@@ -83,4 +84,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-seller-layout>

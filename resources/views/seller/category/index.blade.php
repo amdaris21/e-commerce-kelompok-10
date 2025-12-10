@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-seller-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Manajemen Kategori Produk') }}
@@ -84,4 +84,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-seller-layout>

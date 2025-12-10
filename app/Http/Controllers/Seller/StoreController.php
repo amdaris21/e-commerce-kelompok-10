@@ -40,6 +40,7 @@ class StoreController extends Controller
 
         $validated['user_id'] = $user->id;
         $validated['is_verified'] = false;
+        $validated['address_id'] = 1;
 
         if ($request->hasFile('logo')) {
             $path = $request->file('logo')->store('store_logos', 'public');
@@ -51,7 +52,7 @@ class StoreController extends Controller
         return redirect()->route('seller.store.manage')->with('success', 'Pendaftaran toko berhasil! Status: Menunggu verifikasi Admin.');
     }
 
-    public function edit(string $id)
+    public function edit()
     {
         $store = Auth::user()->store;
 
@@ -62,7 +63,7 @@ class StoreController extends Controller
         return view('seller.store.manage', compact('store'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
         $store = Auth::user()->store;
 
@@ -95,7 +96,7 @@ class StoreController extends Controller
         return redirect()->route('seller.store.manage')->with('success', 'Profil toko berhasil diperbarui.');
     }
 
-    public function destroy(string $id)
+    public function destroy()
     {
         $store = Auth::user()->store;
 
