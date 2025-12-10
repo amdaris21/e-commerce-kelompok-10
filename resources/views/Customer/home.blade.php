@@ -1,132 +1,7 @@
-<x-app-layout>
-
+<x-customer-layout>
 
 <style>
-    :root{
-        --bg: #0B0B0B;
-        --panel: #121212;
-        --panel2: #171717;
-        --garis: #242424;
-        --garis2: #343434;
-        --teks: #F2F2F2;
-        --muted: #B9B9B9;
-        --muted2: #9C9C9C;
-        --putih: #FFFFFF;
-        --hitam: #000000;
-    }
-
-    *{ box-sizing: border-box; }
-    html,body{ height: 100%; }
-    body{
-        margin: 0;
-        background: var(--bg);
-        color: var(--teks);
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    }
-
-    .container{
-        max-width: 1120px;
-        margin: 0 auto;
-        padding: 0 16px;
-    }
-
-    header{
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        background: #0B0B0B;
-        border-bottom: 1px solid var(--garis);
-    }
-
-    .header-bar{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 14px;
-        padding: 12px 0;
-    }
-
-    .brand{
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        text-decoration: none;
-        color: inherit;
-    }
-    .brand-logo{
-        width: 38px;
-        height: 38px;
-        border-radius: 14px;
-        display: grid;
-        place-items: center;
-        background: var(--putih);
-        color: var(--hitam);
-        font-weight: 900;
-        letter-spacing: .5px;
-    }
-    .brand-name{
-        font-weight: 900;
-        line-height: 1.1;
-    }
-    .brand-tag{
-        font-size: 12px;
-        color: var(--muted2);
-        margin-top: 2px;
-    }
-
-    .search{
-        display: none;
-        flex: 1;
-        max-width: 520px;
-        position: relative;
-    }
-    .search-icon{
-        position: absolute;
-        left: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--muted2);
-        font-size: 14px;
-    }
-    .search input{
-        width: 100%;
-        padding: 10px 12px 10px 34px;
-        border-radius: 18px;
-        border: 1px solid var(--garis);
-        background: #e7e7e7ff;
-        color: var(--teks);
-        outline: none;
-    }
-
-    @media (min-width: 768px){
-        .search{ display: block; }
-    }
-
-    .btn{
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 10px 14px;
-        border-radius: 16px;
-        text-decoration: none;
-        font-weight: 800;
-        font-size: 14px;
-    }
-    .btn-outline{
-        background: var(--panel);
-        border: 1px solid var(--garis);
-        color: var(--teks);
-    }
-    .btn-outline:hover{
-        background: var(--panel2);
-    }
-    .btn-solid{
-        background: var(--putih);
-        color: var(--hitam);
-        border: 1px solid #EAEAEA;
-    }
-
+    
     .hero{
         padding-top: 18px;
     }
@@ -140,6 +15,7 @@
         grid-template-columns: 1fr;
         gap: 18px;
         overflow:hidden;
+        color: #FFFFFF; /* Force White Text on Dark Card */
     }
     @media (min-width: 900px){
         .hero-card{
@@ -155,76 +31,26 @@
         padding:8px 12px;
         font-size:12px;
         border-radius:999px;
-        background:var(--panel);
-        border:1px solid var(--garis);
-        color:var(--muted);
+        background: rgba(255,255,255,0.1);
+        border:1px solid rgba(255,255,255,0.2);
+        color: #CCC;
     }
     .hero-title{
         margin:14px 0 0;
         font-size:34px;
         font-weight:1000;
         line-height:1.05;
+        color: #FFFFFF;
     }
     @media(min-width:900px){
         .hero-title{ font-size:52px;}
     }
-    .hero-title span{ color:var(--muted);}
+    .hero-title span{ color: #888; }
 
     .hero-desc{
         margin-top:10px;
-        color:var(--muted);
+        color: #AAA;
         max-width:58ch;
-    }
-
-    .product-grid{
-        display:grid;
-        grid-template-columns:repeat(2,1fr);
-        gap:14px;
-    }
-    @media(min-width:768px){
-        .product-grid{ grid-template-columns:repeat(3,1fr);}
-    }
-    @media(min-width:1100px){
-        .product-grid{ grid-template-columns:repeat(4,1fr);}
-    }
-
-    .product-card{
-        border:1px solid var(--garis);
-        background:var(--panel);
-        border-radius:22px;
-        overflow:hidden;
-        transition:.18s ease;
-    }
-    .product-card:hover{
-        border-color:var(--garis2);
-        background:var(--panel2);
-    }
-
-    .product-photo{
-        display:block;
-        background:#0E0E0E;
-        aspect-ratio:1/1;
-    }
-    .product-photo img{
-        width:100%;
-        height:100%;
-        object-fit:cover;
-    }
-
-    .empty{
-        grid-column:1 / -1;
-        text-align:center;
-        padding:24px;
-        color:var(--muted2);
-    }
-
-    footer{
-        border-top:1px solid var(--garis);
-        padding:18px;
-        text-align:center;
-        color:var(--muted2);
-        font-size:13px;
-        margin-top:16px;
     }
 
     .product-card{
@@ -234,6 +60,20 @@
         overflow:hidden;
         transition:.25s ease;
         position:relative;
+        color: #FFFFFF;
+    }
+
+    .product-name{
+        font-size:16px;
+        font-weight:700;
+        margin-bottom:8px;
+        color: #FFFFFF;
+    }
+
+    .product-price{
+        font-size:17px;
+        font-weight:800;
+        color: #FFFFFF;
     }
 
     .product-card:hover{
@@ -309,34 +149,77 @@
         transform:translateY(-2px);
     }
 
+    .slider-container {
+        position: relative;
+        max-width: 1120px;
+        margin: 24px auto 0;
+        border-radius: 28px;
+        overflow: hidden;
+        aspect-ratio: 21/9;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .slider-track {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        height: 100%;
+    }
+    
+    .slide {
+        min-width: 100%;
+        height: 100%;
+        position: relative;
+    }
+    
+    .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .slider-dots {
+        position: absolute;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+        z-index: 10;
+    }
+    .slider-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.5);
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .slider-dot.active {
+        background: #FFF;
+        transform: scale(1.2);
+    }
 </style>
 
 
-<header>
-    <div class="container header-bar">
-        <a class="brand" href="{{ route('customer.home') }}">
-            <div class="brand-logo">Y2K</div>
-            <div>
-                <div class="brand-name">Y2K Accessories</div>
-                <div class="brand-tag">ring • necklace • bracelet • charms</div>
+<main>
+
+    <div class="container">
+        <div class="slider-container">
+            <div class="slider-track" id="sliderTrack">
+                <div class="slide">
+                    <img src="{{ asset('images/banner-sale.jpg') }}" alt="Sale Banner">
+                </div>
+                <div class="slide">
+                    <img src="{{ asset('images/banner-collection.jpg') }}" alt="Collection Banner">
+                </div>
             </div>
-        </a>
-
-    <form class="search" action="{{ route('customer.search') }}" method="GET">
-        <div class="search-icon">⌕</div>
-        <input type="text" name="q" placeholder="Cari aksesoris y2k..." required>
-    </form>
-
-
-        <div class="auth">
-            <a class="btn btn-outline" href="{{ route('login') }}">Log in</a>
-            <a class="btn btn-solid" href="{{ route('register') }}">Register</a>
+            
+            <div class="slider-dots" id="sliderDots">
+                <div class="slider-dot active" data-index="0"></div>
+                <div class="slider-dot" data-index="1"></div>
+            </div>
         </div>
     </div>
-</header>
-
-
-<main>
 
     <section class="container hero">
         <div class="hero-card">
@@ -359,12 +242,22 @@
                         <span class="mini-tag">LIMITED</span>
                     </div>
                     <div class="hero-grid">
-                        <div class="hero-tile"></div>
-                        <div class="hero-tile"></div>
-                        <div class="hero-tile"></div>
-                        <div class="hero-tile"></div>
-                        <div class="hero-tile"></div>
-                        <div class="hero-tile"></div>
+                        @foreach($products->take(6) as $item)
+                        @php
+                            $hImg = null;
+                            if ($item->thumbnail && !empty($item->thumbnail->image)) {
+                                $hImg = $item->thumbnail->image;
+                            } elseif ($item->images && $item->images->first()) {
+                                $hImg = $item->images->first()->image;
+                            }
+                            $hUrl = $hImg ? asset('storage/'.$hImg) : null;
+                        @endphp
+                        <div class="hero-tile">
+                            @if($hUrl)
+                                <img src="{{ $hUrl }}" alt="Product">
+                            @endif
+                        </div>
+                        @endforeach
                     </div>
                 </div>
 
@@ -441,8 +334,31 @@
 
 </main>
 
-<footer>
-    © {{ date('Y') }} Y2K Accessories — Laravel
-</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const track = document.getElementById('sliderTrack');
+        const dots = document.querySelectorAll('.slider-dot');
+        const slideCount = dots.length;
+        let currentIndex = 0;
+        
+        function updateSlider(index) {
+            track.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[index].classList.add('active');
+            currentIndex = index;
+        }
 
-</x-app-layout>
+        setInterval(() => {
+            let nextIndex = (currentIndex + 1) % slideCount;
+            updateSlider(nextIndex);
+        }, 5000);
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                updateSlider(index);
+            });
+        });
+    });
+</script>
+
+</x-customer-layout>
