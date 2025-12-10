@@ -7,11 +7,12 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seller\ProductCategoryController;
 use App\Http\Controllers\Seller\ProductController;
 use App\Http\Controllers\Seller\StoreController;
+use App\Http\Controllers\Customer\CustomerHomeController;
+use App\Http\Controllers\Customer\TransactionController;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [CustomerHomeController::class, 'index'])->name('customer.home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -45,5 +46,12 @@ Route::middleware(['auth', 'verified', CheckSeller::class])
         Route::get('/balance', function () { return "Saldo Toko Page"; })->name('balance.index');
         Route::get('/withdraw', function () { return "Penarikan Dana Page"; })->name('withdraw.index');
     });
+
+Route::get('/search', [CustomerHomeController::class, 'search'])->name('customer.search');
+
+Route::get('/products/{id}', [CustomerHomeController::class, 'show'])->name('customer.product.show');
+
+Route::get('/transaction/{product}', [TransactionController::class, 'show'])->name('transaction.show');
+Route::post('/transaction/process', [TransactionController::class, 'process'])->name('transaction.process')->middleware('auth');
 
 require __DIR__ . '/auth.php';

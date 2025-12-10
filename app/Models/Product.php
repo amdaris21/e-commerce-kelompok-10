@@ -35,9 +35,10 @@ class Product extends Model
     {
         return $this->belongsTo(Store::class);
     }
+
     public function category()
     {
-        return $this->belongsTo(ProductCategory::class);
+        return $this->belongsTo(ProductCategory::class, 'product_category_id');
     }
 
     public function images()
@@ -45,10 +46,16 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
+    public function thumbnail()
+    {
+        return $this->hasOne(ProductImage::class)->where('is_thumbnail', 1);
+    }
+
     public function transactionDetails()
     {
         return $this->hasMany(TransactionDetail::class);
     }
+
     public function productReviews()
     {
         return $this->hasMany(ProductReview::class);
