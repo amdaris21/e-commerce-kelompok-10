@@ -132,4 +132,4 @@
     © {{ date('Y') }} Y2K Accessories — Laravel
 </footer>
 
-</x-app-layout>
+</x-customer-layout>
