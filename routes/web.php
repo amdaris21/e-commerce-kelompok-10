@@ -30,4 +30,11 @@ Route::get('/search', [CustomerHomeController::class, 'search'])->name('customer
 Route::get('/products/{id}', [CustomerHomeController::class, 'show'])->name('customer.product.show');
 
 
+Route::post('/cart', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store')->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/checkout/{id}', [App\Http\Controllers\Customer\TransactionController::class, 'show'])->name('transaction.show');
+    Route::post('/checkout', [App\Http\Controllers\Customer\TransactionController::class, 'process'])->name('transaction.process');
+});
+
 require __DIR__ . '/auth.php';
