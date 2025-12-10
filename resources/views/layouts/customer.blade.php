@@ -177,6 +177,7 @@
                     @if(auth()->user()->role === 'admin')
                         <a href="{{ route('dashboard') }}" class="btn-outline">Dashboard</a>
                     @else
+                         <a href="{{ route('transaction.history') }}" class="btn-outline">History</a>
                          <a href="{{ route('profile.edit') }}" class="btn-solid">Profile</a>
                     @endif
                 @else
