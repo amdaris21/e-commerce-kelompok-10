@@ -15,7 +15,7 @@ use App\Http\Controllers\Customer\TransactionController;
 Route::get('/', [CustomerHomeController::class, 'index'])->name('customer.home');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect()->route('customer.home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
