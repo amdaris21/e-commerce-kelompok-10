@@ -1,22 +1,20 @@
-<x-app-layout>
+<x-customer-layout>
 <style>
     :root{
-        --bg: #0B0B0B;
-        --panel: #121212;
-        --panel2: #171717;
-        --garis: #242424;
-        --garis2: #c2c2c2ff;
-        --teks: #F2F2F2;
-        --muted: #B9B9B9;
+        --bg: #FDFBF7;
+        --panel: #FFFFFF;
+        --panel2: #F3F1ED;
+        --garis: #E6E4DF;
+        --garis2: #D1D1D1;
+        --teks: #1A1A1A;
+        --muted: #666666;
         --putih: #FFFFFF;
         --hitam: #000000;
         --pink: #f0bbbbff;
         --pink-tua: #d26b6bff;
         --pink-light: #ffafc4ff;
     }
-    * {
-        box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body, html {
         margin: 0;
         background: var(--bg);
@@ -49,133 +47,198 @@
     .brand-logo {
         width: 38px;
         height: 38px;
-        background: var(--putih);
+        background: var(--hitam);
         border-radius: 14px;
         display: grid;
         place-items: center;
         font-weight: 900;
-        color: var(--hitam);
+        color: var(--putih);
         font-size: 18px;
     }
+    
     main.container {
         max-width: 1120px;
         margin: 40px auto;
-        padding: 30px 20px;
-        background: var(--panel);
-        border-radius: 22px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.7);
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 48px;
+        padding: 0 20px;
     }
-    @media (max-width: 768px) {
-        main.container {
+
+    h1.page-title {
+        font-size: 32px;
+        font-weight: 900;
+        margin-bottom: 30px;
+        color: var(--hitam);
+    }
+
+    /* Form Layout */
+    .checkout-layout {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 30px;
+        align-items: start;
+    }
+    @media (max-width: 900px) {
+        .checkout-layout {
             grid-template-columns: 1fr;
-            margin: 20px 10px;
-            gap: 30px;
         }
     }
-    .product-summary {
-        background: #0E0E0E;
-        border-radius: 22px;
-        padding: 24px;
-        text-align: center;
-        box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
-    }
-    .product-summary img {
-        width: 100%;
-        max-width: 320px;
-        border-radius: 22px;
-        aspect-ratio: 1 / 1;
-        object-fit: cover;
-        margin-bottom: 16px;
-        margin-left: 70px;
-        transition: transform 0.3s ease;
-    }
-    .product-summary img:hover {
-        transform: scale(1.05);
-    }
-    .product-category {
-        font-size: 14px;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 1.2px;
-        margin-bottom: 10px;
-    }
-    .product-name {
-        font-size: 28px;
-        font-weight: 900;
+
+    /* Cards */
+    .card {
+        background: var(--hitam);
+        border-radius: 20px;
+        padding: 30px;
         color: var(--putih);
-        margin-bottom: 12px;
+        margin-bottom: 30px;
+        border: 1px solid #222;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
     }
-    .product-price {
-        font-size: 24px;
-        font-weight: 800;
-        color: var(--pink);
-        margin-bottom: 12px;
-    }
-    form.checkout-form {
-        background: var(--panel2);
-        border-radius: 22px;
-        padding: 32px;
-        box-shadow: inset 0 0 12px rgba(0,0,0,0.5);
+    .card-header {
         display: flex;
-        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+        border-bottom: 1px solid #333;
+        padding-bottom: 16px;
     }
-    form.checkout-form label {
-        font-weight: 700;
+    .step-number {
+        background: var(--putih);
+        color: var(--hitam);
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
         font-size: 14px;
-        color: var(--muted);
-        margin-bottom: 6px;
-        display: block;
     }
-    form.checkout-form input,
-    form.checkout-form textarea,
-    form.checkout-form select {
+    .card-title {
+        font-size: 18px;
+        font-weight: 800;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Form Inputs */
+    .form-group {
+        margin-bottom: 20px;
+    }
+    label {
+        display: block;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #ccc;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    input, textarea, select {
         width: 100%;
         padding: 14px 16px;
         border-radius: 12px;
-        border: 1.5px solid var(--garis2);
-        background: var(--panel);
+        background: #111;
+        border: 1px solid #333;
         color: var(--putih);
-        font-size: 16px;
+        font-size: 15px;
+        font-family: inherit;
         outline: none;
-        resize: vertical;
-        margin-bottom: 20px;
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-        transition: border-color 0.25s ease, box-shadow 0.25s ease;
-        box-sizing: border-box;
+        transition: all 0.2s;
     }
-    form.checkout-form input:focus,
-    form.checkout-form textarea:focus,
-    form.checkout-form select:focus {
-        border-color: var(--pink-light);
-        box-shadow: 0 0 8px var(--pink-light);
+    input:focus, textarea:focus, select:focus {
+        border-color: var(--putih);
+        background: #000;
     }
-    textarea {
-        min-height: 100px;
+    textarea { min-height: 100px; resize: vertical; }
+
+    .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
     }
-    button.submit-btn {
-        background-color: var(--pink);
-        border: none;
-        padding: 16px 0;
+
+    /* Product Item in List */
+    .order-item {
+        display: flex;
+        gap: 16px;
+        padding: 16px;
+        background: #111;
         border-radius: 16px;
+        border: 1px solid #333;
+    }
+    .order-img {
+        width: 70px;
+        height: 70px;
+        border-radius: 12px;
+        object-fit: cover;
+        background: #222;
+    }
+    .order-info {
+        flex: 1;
+    }
+    .order-name {
+        font-weight: 800;
+        font-size: 16px;
+        margin-bottom: 4px;
+        color: var(--putih);
+    }
+    .order-price {
+        font-weight: 700;
+        color: var(--pink);
+        font-size: 14px;
+    }
+
+    /* Summary Sidebar */
+    .summary-card {
+        position: sticky;
+        top: 100px;
+    }
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 14px;
+        color: #ccc;
+    }
+    .summary-row.total {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #333;
+        font-weight: 900;
+        font-size: 20px;
+        color: var(--pink);
+    }
+    
+    .process-btn {
+        width: 100%;
+        background: var(--pink);
+        color: var(--hitam);
+        padding: 18px;
+        border-radius: 14px;
+        border: none;
         font-weight: 900;
         font-size: 16px;
-        color: var(--hitam);
         cursor: pointer;
-        transition: background-color 0.3s ease;
+        margin-top: 24px;
         text-transform: uppercase;
-        letter-spacing: 1.2px;
+        letter-spacing: 1px;
+        transition: 0.2s;
     }
-    button.submit-btn:hover {
-        background-color: var(--pink-tua);
+    .process-btn:hover {
+        background: var(--pink-tua);
+        transform: translateY(-2px);
     }
-    .error-message {
-        color: #f87171;
-        font-size: 13px;
-        margin-top: -16px;
-        margin-bottom: 12px;
+
+    /* Helpers */
+    .text-danger { color: #ff6b6b; font-size: 12px; margin-top: 4px; display: block; }
+    .flash-success {
+        background: #22c55e;
+        color: white;
+        padding: 12px;
+        border-radius: 12px;
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 20px;
     }
 </style>
 
@@ -192,49 +255,214 @@
 </header>
 
 <main class="container">
-    <section class="product-summary">
-        <img src="{{ asset('storage/' . ($product->thumbnail->image ?? ($product->images->first()->image ?? 'images/default-product.png'))) }}" alt="{{ $product->name }}">
-        <div class="product-category">{{ optional($product->category)->name ?? 'Uncategorized' }}</div>
-        <h2 class="product-name">{{ $product->name }}</h2>
-        <div class="product-price">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
-    </section>
+    <h1 class="page-title">Checkout</h1>
 
-    <form method="POST" action="{{ route('transaction.process') }}" class="checkout-form">
+    @if(session('success'))
+        <div class="flash-success">{{ session('success') }}</div>
+    @endif
+
+    <form action="{{ route('transaction.process') }}" method="POST" class="checkout-layout">
         @csrf
         <input type="hidden" name="store_id" value="{{ $product->store_id }}">
         <input type="hidden" name="product_id" value="{{ $product->id }}">
+        
+        <!-- Assuming quantity is passed or default 1 -->
+        <input type="hidden" name="quantity" value="{{ request('quantity', 1) }}">
 
-        <label for="fullname">Nama Lengkap</label>
-        <input id="fullname" name="fullname" type="text" placeholder="Masukkan nama lengkap" value="{{ old('fullname') }}" required>
-        @error('fullname')<div class="error-message">{{ $message }}</div>@enderror
+        <!-- LEFT COLUMN -->
+        <div class="left-column">
+            
+            <!-- SECTION 1: Alamat -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="step-number">1</div>
+                    <h2 class="card-title">Alamat Pengiriman</h2>
+                </div>
+                
+                <div class="form-group">
+                    <label>Nama Lengkap *</label>
+                    <input type="text" name="fullname" placeholder="Masukkan nama lengkap Anda" value="{{ old('fullname', auth()->user()->name ?? '') }}" required>
+                    @error('fullname') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
 
-        <label for="address">Alamat Lengkap</label>
-        <textarea id="address" name="address" placeholder="Masukkan alamat lengkap" required>{{ old('address') }}</textarea>
-        @error('address')<div class="error-message">{{ $message }}</div>@enderror
+                <div class="form-group">
+                    <label>Alamat Lengkap *</label>
+                    <textarea name="address" placeholder="Masukkan alamat lengkap" required>{{ old('address') }}</textarea>
+                    @error('address') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
 
-        <label for="city">Kota</label>
-        <input id="city" name="city" type="text" placeholder="Masukkan kota" value="{{ old('city') }}" required>
-        @error('city')<div class="error-message">{{ $message }}</div>@enderror
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Kota *</label>
+                        <input type="text" name="city" placeholder="Kota" value="{{ old('city') }}" required>
+                        @error('city') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="form-group">
+                        <label>Kode Pos *</label>
+                        <input type="text" name="postal_code" placeholder="Kode Pos" value="{{ old('postal_code') }}" required>
+                        @error('postal_code') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                </div>
 
-        <label for="postal_code">Kode Pos</label>
-        <input id="postal_code" name="postal_code" type="text" placeholder="Masukkan kode pos" value="{{ old('postal_code') }}" required>
-        @error('postal_code')<div class="error-message">{{ $message }}</div>@enderror
+                 <div class="form-group">
+                    <label>Jenis Pengiriman *</label>
+                    <select name="shipping_type" required>
+                        <option value="" disabled selected>Pilih pengiriman</option>
+                        <option value="reguler">Reguler (Rp 10.000)</option>
+                        <option value="express">Express (Rp 25.000)</option>
+                        <option value="same_day">Same Day (Rp 50.000)</option>
+                    </select>
+                     @error('shipping_type') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+            </div>
 
-        <label for="shipping_type">Jenis Pengiriman</label>
-        <select id="shipping_type" name="shipping_type" required>
-            <option value="" disabled {{ old('shipping_type') ? '' : 'selected' }}>Pilih jenis pengiriman</option>
-            <option value="reguler" {{ old('shipping_type') == 'reguler' ? 'selected' : '' }}>Reguler - 3-5 hari</option>
-            <option value="express" {{ old('shipping_type') == 'express' ? 'selected' : '' }}>Express - 1-2 hari</option>
-            <option value="same_day" {{ old('shipping_type') == 'same_day' ? 'selected' : '' }}>Same Day Delivery</option>
-        </select>
-        @error('shipping_type')<div class="error-message">{{ $message }}</div>@enderror
+            <!-- SECTION 2: Produk -->
+            <div class="card">
+                 <div class="card-header">
+                    <div class="step-number">2</div>
+                    <h2 class="card-title">Detail Pesanan</h2>
+                </div>
+                <div class="order-item">
+                    <img src="{{ asset('storage/' . ($product->thumbnail->image ?? ($product->images->first()->image ?? 'images/default-product.png'))) }}" alt="{{ $product->name }}" class="order-img">
+                    <div class="order-info">
+                        <div class="order-name">{{ $product->name }}</div>
+                        <div class="order-price">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
+                        <!-- Quantity Control -->
+                        <div class="qty-control" style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+                            <button type="button" class="qty-btn" id="qty-minus">-</button>
+                            <span id="qty-display" style="font-weight:700;">{{ request('quantity', 1) }}</span>
+                            <button type="button" class="qty-btn" id="qty-plus">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <button type="submit" class="submit-btn">Selesaikan Pembelian</button>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="right-column">
+            <div class="card summary-card">
+                 <div class="card-header" style="border:none; padding:0; margin-bottom:20px;">
+                    <h2 class="card-title">Ringkasan Pesanan</h2>
+                </div>
+                
+                <div class="summary-row">
+                    <span>Subtotal Produk</span>
+                    <span>Rp {{ number_format($product->price * request('quantity', 1), 0, ',', '.') }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Biaya Layanan</span>
+                    <span>Rp 2.000</span>
+                </div>
+                <div class="summary-row">
+                    <span>Pengiriman</span>
+                    <span>-</span> 
+                </div>
+
+                <div class="summary-row total">
+                    <span>Total Pembayaran</span>
+                    <span id="total-price">Rp {{ number_format(($product->price * request('quantity', 1)) + 2000, 0, ',', '.') }}</span>
+                </div>
+
+                <button type="submit" class="process-btn">Buat Pesanan</button>
+            </div>
+        </div>
     </form>
 </main>
 
 <footer>
-    © {{ date('Y') }} Y2K Accessories — Laravel
+    © {{ date('Y') }} Y2K Accessories
 </footer>
 
-</x-app-layout>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const shippingSelect = document.querySelector('select[name="shipping_type"]');
+        const shippingDisplay = document.querySelector('.summary-row:nth-child(4) span:last-child'); // Pengiriman row
+        const totalDisplay = document.getElementById('total-price');
+        const subtotalDisplay = document.querySelector('.summary-row:nth-child(2) span:last-child'); // Subtotal row
+        
+        // Quantity Elements
+        const qtyInput = document.querySelector('input[name="quantity"]');
+        const qtyDisplay = document.getElementById('qty-display');
+        const btnMinus = document.getElementById('qty-minus');
+        const btnPlus = document.getElementById('qty-plus');
+        
+        // Base values
+        const productPrice = {{ $product->price }};
+        const serviceFee = 2000;
+        
+        let currentQty = parseInt(qtyInput.value) || 1;
+        let currentShippingCost = 0;
+
+        const shippingCosts = {
+            'reguler': 10000,
+            'express': 25000,
+            'same_day': 50000
+        };
+
+        function formatRupiah(number) {
+            return 'Rp ' + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        function updateTotals() {
+            // Calculate totals
+            const subtotal = productPrice * currentQty;
+            const grandTotal = subtotal + serviceFee + currentShippingCost;
+            
+            // Update DOM
+            qtyDisplay.textContent = currentQty;
+            qtyInput.value = currentQty;
+            subtotalDisplay.textContent = formatRupiah(subtotal);
+            totalDisplay.textContent = formatRupiah(grandTotal);
+        }
+
+        // Shipping Change Listener
+        shippingSelect.addEventListener('change', function() {
+            const selectedType = this.value;
+            currentShippingCost = shippingCosts[selectedType] || 0;
+            
+            if (currentShippingCost > 0) {
+                shippingDisplay.textContent = formatRupiah(currentShippingCost);
+            } else {
+                shippingDisplay.textContent = '-';
+            }
+            
+            updateTotals();
+        });
+
+        // Quantity Listeners
+        btnMinus.addEventListener('click', function() {
+            if (currentQty > 1) {
+                currentQty--;
+                updateTotals();
+            }
+        });
+
+        btnPlus.addEventListener('click', function() {
+            currentQty++;
+            updateTotals();
+        });
+    });
+</script>
+
+<style>
+    .qty-btn {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 1px solid #333;
+        background: #222;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-family: monospace;
+    }
+    .qty-btn:hover {
+        background: #333;
+    }
+</style>
+
+</x-customer-layout>

@@ -73,5 +73,4 @@ class CustomerHomeController extends Controller
     }
 
 
-
 }

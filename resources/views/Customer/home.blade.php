@@ -1,16 +1,16 @@
-<x-app-layout>
+<x-customer-layout>
 
 
 <style>
     :root{
-        --bg: #0B0B0B;
-        --panel: #121212;
-        --panel2: #171717;
-        --garis: #242424;
-        --garis2: #343434;
-        --teks: #F2F2F2;
-        --muted: #B9B9B9;
-        --muted2: #9C9C9C;
+        --bg: #FDFBF7;
+        --panel: #FFFFFF;
+        --panel2: #F3F1ED;
+        --garis: #E6E4DF;
+        --garis2: #D1D1D1;
+        --teks: #1A1A1A;
+        --muted: #666666;
+        --muted2: #888888;
         --putih: #FFFFFF;
         --hitam: #000000;
     }
@@ -34,7 +34,7 @@
         position: sticky;
         top: 0;
         z-index: 50;
-        background: #0B0B0B;
+        background: var(--bg);
         border-bottom: 1px solid var(--garis);
     }
 
@@ -59,8 +59,8 @@
         border-radius: 14px;
         display: grid;
         place-items: center;
-        background: var(--putih);
-        color: var(--hitam);
+        background: var(--hitam);
+        color: var(--putih);
         font-weight: 900;
         letter-spacing: .5px;
     }
@@ -93,7 +93,7 @@
         padding: 10px 12px 10px 34px;
         border-radius: 18px;
         border: 1px solid var(--garis);
-        background: #e7e7e7ff;
+        background: #F3F3F3;
         color: var(--teks);
         outline: none;
     }
@@ -122,9 +122,9 @@
         background: var(--panel2);
     }
     .btn-solid{
-        background: var(--putih);
-        color: var(--hitam);
-        border: 1px solid #EAEAEA;
+        background: var(--hitam);
+        color: var(--putih);
+        border: 1px solid #000;
     }
 
     .hero{
@@ -132,48 +132,64 @@
     }
 
     .hero-card{
-        border: 1px solid var(--garis);
-        border-radius: 28px;
-        background: linear-gradient(135deg, #1A1A1A, #0F0F0F 55%, #0B0B0B);
-        padding: 18px;
+        border: 1px solid var(--hitam);
+        border-radius: 20px;
+        background: radial-gradient(circle at top right, #333, #000);
+        padding: 40px;
         display: grid;
         grid-template-columns: 1fr;
-        gap: 18px;
+        gap: 30px;
         overflow:hidden;
+        color: var(--putih);
+        position: relative;
     }
     @media (min-width: 900px){
         .hero-card{
-            grid-template-columns: 1.15fr .85fr;
-            padding: 26px;
-            gap: 26px;
+            grid-template-columns: 1.2fr .8fr;
+            padding: 50px;
+            gap: 40px;
         }
     }
 
     .hero-pill{
         display:inline-flex;
         gap:8px;
-        padding:8px 12px;
+        padding:6px 14px;
         font-size:12px;
         border-radius:999px;
-        background:var(--panel);
-        border:1px solid var(--garis);
-        color:var(--muted);
+        background: rgba(255,255,255,0.1);
+        border:1px solid rgba(255,255,255,0.2);
+        color: #ddd;
+        backdrop-filter: blur(4px);
+        margin-bottom: 20px;
     }
     .hero-title{
-        margin:14px 0 0;
-        font-size:34px;
-        font-weight:1000;
-        line-height:1.05;
+        margin:0;
+        font-size:42px;
+        font-weight:900;
+        line-height:1;
+        letter-spacing: -1px;
+        color: var(--putih);
+        text-transform: uppercase;
     }
     @media(min-width:900px){
-        .hero-title{ font-size:52px;}
+        .hero-title{ font-size:68px;}
     }
-    .hero-title span{ color:var(--muted);}
+    .hero-title span{ 
+        display: block;
+        color: #888;
+        font-size: 0.5em; 
+        font-weight: 700;
+        margin-top: 5px;
+        letter-spacing: 2px;
+    }
 
     .hero-desc{
-        margin-top:10px;
-        color:var(--muted);
-        max-width:58ch;
+        margin-top:20px;
+        color: #bbb;
+        max-width:50ch;
+        font-size: 16px;
+        line-height: 1.5;
     }
 
     .product-grid{
@@ -309,6 +325,54 @@
         transform:translateY(-2px);
     }
 
+
+    .section{
+        margin-top: 32px;
+    }
+    .section-head{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+    }
+    .section-title{
+        font-size: 28px;
+        font-weight: 900;
+        color: var(--teks);
+    }
+    .section-link{
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+    }
+    .section-link:hover{
+        color: var(--teks);
+    }
+
+    .chips{
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+    }
+    .chip{
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: var(--panel);
+        border: 1px solid var(--garis);
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        transition: .2s;
+    }
+    .chip.active{
+        background: var(--putih);
+        color: var(--hitam);
+    }
+    .chip:hover{
+        background: var(--panel2);
+    }
+
 </style>
 
 
@@ -329,8 +393,12 @@
 
 
         <div class="auth">
-            <a class="btn btn-outline" href="{{ route('login') }}">Log in</a>
-            <a class="btn btn-solid" href="{{ route('register') }}">Register</a>
+            @auth
+                <a class="btn btn-outline" href="{{ route('profile.edit') }}">Profile</a>
+            @else
+                <a class="btn btn-outline" href="{{ route('login') }}">Log in</a>
+                <a class="btn btn-solid" href="{{ route('register') }}">Register</a>
+            @endauth
         </div>
     </div>
 </header>
@@ -441,8 +509,11 @@
 
 </main>
 
+
+
 <footer>
     © {{ date('Y') }} Y2K Accessories — Laravel
 </footer>
 
-</x-app-layout>
+</x-customer-layout>
+

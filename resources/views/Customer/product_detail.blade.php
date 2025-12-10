@@ -1,15 +1,15 @@
-<x-app-layout>
+<x-customer-layout>
 
 <style>
     :root{
-        --bg: #0B0B0B;
-        --panel: #121212;
-        --panel2: #171717;
-        --garis: #242424;
-        --garis2: #343434;
-        --teks: #F2F2F2;
-        --muted: #B9B9B9;
-        --muted2: #9C9C9C;
+        --bg: #FDFBF7;
+        --panel: #FFFFFF;
+        --panel2: #F3F1ED;
+        --garis: #E6E4DF;
+        --garis2: #D1D1D1;
+        --teks: #1A1A1A;
+        --muted: #666666;
+        --muted2: #888888;
         --putih: #FFFFFF;
         --hitam: #000000;
         --pink_tua: #d26b6bff;
@@ -110,69 +110,76 @@
         margin-top: 32px;
     }
 
+    /* Updated to match Cream/Black Theme */
     .product-detail {
         display: grid;
         grid-template-columns: 1fr 1.3fr;
         gap: 48px;
         align-items: start;
-        background-color: var(--panel);
-        padding: 30px;
+        background-color: var(--hitam); /* Change to Black */
+        padding: 40px;
         border-radius: 24px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        color: var(--putih); /* Default text white in this box */
     }
     @media (max-width: 768px) {
         .product-detail {
             grid-template-columns: 1fr;
             gap: 30px;
-            padding: 20px;
+            padding: 24px;
         }
     }
 
     .product-photo {
-        border-radius: 24px;
+        border-radius: 18px;
         overflow: hidden;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.85);
-        background: #0E0E0E;
+        /* box-shadow: 0 8px 24px rgba(0,0,0,0.85); */
+        background: #111;
+        border: 1px solid #333;
     }
     .product-photo img {
         width: 100%;
         height: auto;
         object-fit: cover;
         transition: transform 0.4s ease;
+        display: block;
     }
     .product-photo img:hover {
         transform: scale(1.05);
     }
 
     .product-body {
-        color: var(--teks);
+        color: var(--putih);
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        padding: 0 12px;
+        padding: 0;
     }
     .product-category {
-        font-size: 14px;
-        color: var(--muted);
+        font-size: 13px;
+        color: #888;
         text-transform: uppercase;
-        letter-spacing: 1.2px;
-        margin-bottom: 8px;
+        letter-spacing: 2px;
+        margin-bottom: 12px;
+        font-weight: 600;
     }
     .product-name {
-        font-size: 32px;
+        font-size: 38px;
         font-weight: 900;
-        margin-bottom: 12px;
+        margin-bottom: 16px;
         color: var(--putih);
+        line-height: 1.1;
     }
     .product-price {
-        font-size: 24px;
+        font-size: 28px;
         font-weight: 800;
-        color: #FFFFFF;
-        margin-bottom: 20px;
+        color: var(--putih);
+        margin-bottom: 24px;
+        letter-spacing: -0.5px;
     }
     .product-description {
         font-size: 16px;
-        line-height: 1.6;
-        color: var(--muted2);
-        margin-bottom: 30px;
+        line-height: 1.7;
+        color: #ccc;
+        margin-bottom: 36px;
     }
 
     .btn-full {
@@ -180,62 +187,87 @@
         width: 100%;
         background-color: var(--pink);
         color: var(--hitam);
-        font-weight: 900;
-        padding: 16px 0;
-        border-radius: 16px;
+        font-weight: 800;
+        padding: 18px 0;
+        border-radius: 14px;
         border: none;
         cursor: pointer;
         text-align: center;
         text-decoration: none;
-        transition: background-color 0.3s ease;
+        transition: all 0.2s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 16px;
     }
     .btn-full:hover {
         background-color: var(--pink_tua);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(240, 187, 187, 0.4);
+    }
+
+    .btn-dark-outline {
+        background-color: transparent;
+        border: 2px solid var(--putih);
+        color: var(--putih);
+    }
+    .btn-dark-outline:hover {
+        background-color: var(--putih);
+        color: var(--hitam);
+        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
     }
 
     .product-reviews {
-    margin-top: 40px;
-    border-top: 1px solid var(--garis);
-    padding-top: 24px;
+        grid-column: 1 / -1; /* Make reviews span full width if inside grid, or margin top */
+        margin-top: 60px;
+        border-top: 1px solid #333;
+        padding-top: 40px;
     }
 
     .product-reviews h2 {
-        font-size: 24px;
-        font-weight: 700;
+        font-size: 20px;
+        font-weight: 800;
         color: var(--putih);
-        margin-bottom: 16px;
+        margin-bottom: 24px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     .review {
-        margin-bottom: 20px;
-        padding-bottom: 16px;
-        border-bottom: 1px solid var(--garis2);
-        color: var(--muted2);
+        margin-bottom: 24px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid #222;
+        color: #bbb;
+    }
+    .review:last-child {
+        border-bottom: none;
     }
 
     .review strong {
         color: var(--putih);
         font-weight: 700;
+        font-size: 15px;
+        margin-right: 8px;
     }
 
     .review-date {
-        font-size: 14px;
-        color: var(--muted);
+        font-size: 12px;
+        color: #666;
     }
 
     .review p {
         margin: 8px 0 0;
-        line-height: 1.4;
+        line-height: 1.5;
+        font-size: 14px;
     }
 
 
     footer {
         border-top: 1px solid var(--garis);
-        padding: 18px;
+        padding: 24px;
         text-align: center;
         color: var(--muted2);
         font-size: 13px;
-        margin-top: 32px;
+        margin-top: 48px;
     }
 </style>
 
@@ -250,8 +282,12 @@
         </a>
 
         <div class="auth">
-            <a href="{{ route('login') }}" class="btn-outline">Log in</a>
-            <a href="{{ route('register') }}" class="btn-solid">Register</a>
+            @auth
+                <a class="btn-outline" href="{{ route('profile.edit') }}">Profile</a>
+            @else
+                <a href="{{ route('login') }}" class="btn-outline">Log in</a>
+                <a href="{{ route('register') }}" class="btn-solid">Register</a>
+            @endauth
         </div>
     </div>
 </header>
@@ -276,7 +312,21 @@
             <div class="product-description">
                 {{ $product->about }}
             </div>
-            <a href="{{ route('transaction.show', $product->id) }}" class="btn-full">Checkout</a>
+            
+            <div class="product-actions" style="display: flex; gap: 12px;">
+                <form action="{{ route('cart.store') }}" method="POST" style="flex: 1;">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="btn-full btn-dark-outline">
+                        Masukkan Keranjang
+                    </button>
+                </form>
+                
+                <a href="{{ route('transaction.show', $product->id) }}" class="btn-full" style="flex: 1;">
+                    Checkout
+                </a>
+            </div>
         </div>
 
         <div class="product-reviews">
@@ -300,4 +350,4 @@
     © {{ date('Y') }} Y2K Accessories — Laravel
 </footer>
 
-</x-app-layout>
+</x-customer-layout>

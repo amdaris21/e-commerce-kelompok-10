@@ -34,4 +34,8 @@ Route::get('/products/{id}', [CustomerHomeController::class, 'show'])->name('cus
 Route::get('/transaction/{product}', [TransactionController::class, 'show'])->name('transaction.show');
 Route::post('/transaction/process', [TransactionController::class, 'process'])->name('transaction.process')->middleware('auth');
 
+Route::get('/transactions/{transaction}', [TransactionController::class, 'detail'])->name('transaction.detail')->middleware('auth');
+
+Route::post('/cart', [\App\Http\Controllers\CartController::class, 'store'])->name('cart.store')->middleware('auth');
+
 require __DIR__ . '/auth.php';

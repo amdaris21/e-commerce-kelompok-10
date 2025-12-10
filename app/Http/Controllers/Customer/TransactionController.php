@@ -74,6 +74,14 @@ class TransactionController extends Controller
             'subtotal' => $subtotal,
         ]);
 
-        return redirect()->route('customer.home')->with('success', 'Transaksi berhasil diproses, kode transaksi: ' . $transactionCode);
+        return redirect()->route('transaction.detail', $transaction->id)
+        ->with('success', 'Transaksi berhasil diproses!');
+}
+
+    public function detail(Transaction $transaction)
+    {
+    $transaction->load(['transactionDetails.product', 'store', 'buyer']);
+    return view('customer.transaction_detail', compact('transaction'));
     }
+
 }

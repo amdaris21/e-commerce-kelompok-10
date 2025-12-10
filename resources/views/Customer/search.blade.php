@@ -1,16 +1,16 @@
-<x-app-layout>
+<x-customer-layout>
 
 <style>
     /* Salin seluruh blok <style> dari home.blade.php di sini untuk konsistensi */
     :root{
-        --bg: #0B0B0B;
-        --panel: #121212;
-        --panel2: #171717;
-        --garis: #242424;
-        --garis2: #343434;
-        --teks: #F2F2F2;
-        --muted: #B9B9B9;
-        --muted2: #9C9C9C;
+        --bg: #FDFBF7;
+        --panel: #FFFFFF;
+        --panel2: #F3F1ED;
+        --garis: #E6E4DF;
+        --garis2: #D1D1D1;
+        --teks: #1A1A1A;
+        --muted: #666666;
+        --muted2: #888888;
         --putih: #FFFFFF;
         --hitam: #000000;
     }
@@ -315,8 +315,12 @@
         </form>
 
         <div class="auth">
-            <a class="btn btn-outline" href="{{ route('login') }}">Log in</a>
-            <a class="btn btn-solid" href="{{ route('register') }}">Register</a>
+            @auth
+                <a class="btn btn-outline" href="{{ route('profile.edit') }}">Profile</a>
+            @else
+                <a class="btn btn-outline" href="{{ route('login') }}">Log in</a>
+                <a class="btn btn-solid" href="{{ route('register') }}">Register</a>
+            @endauth
         </div>
     </div>
 </header>
@@ -395,4 +399,4 @@
     © {{ date('Y') }} Y2K Accessories — Laravel
 </footer>
 
-</x-app-layout>
+</x-customer-layout>
