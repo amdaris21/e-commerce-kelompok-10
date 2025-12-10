@@ -38,4 +38,8 @@ Route::get('/transactions/{transaction}', [TransactionController::class, 'detail
 
 Route::post('/cart', [\App\Http\Controllers\CartController::class, 'store'])->name('cart.store')->middleware('auth');
 
+Route::post('/transaction/{transaction}/confirm', [TransactionController::class, 'confirm'])->name('transaction.confirm')->middleware('auth');
+
+Route::get('/transactions', [TransactionController::class, 'history'])->name('transaction.history')->middleware('auth');
+
 require __DIR__ . '/auth.php';
