@@ -55,7 +55,7 @@ class TransactionController extends Controller
             'buyer_id' => $buyerId,
             'store_id' => $request->store_id,
             'address' => $request->address,
-            'address_id' => null,
+            'address_id' => '',
             'city' => $request->city,
             'postal_code' => $request->postal_code,
             'shipping' => $request->shipping_type,
@@ -64,7 +64,7 @@ class TransactionController extends Controller
             'tracking_number' => null,
             'tax' => $tax,
             'grand_total' => $grandTotal,
-            'payment_status' => 'pending',
+            'payment_status' => 'unpaid',
         ]);
 
         TransactionDetail::create([
@@ -82,6 +82,35 @@ class TransactionController extends Controller
     {
     $transaction->load(['transactionDetails.product', 'store', 'buyer']);
     return view('customer.transaction_detail', compact('transaction'));
+    }
+
+    public function confirm(Transaction $transaction)
+    {
+        // Update status or perform necessary actions
+        // For now, we just redirect to history, maybe setting status to 'pending' if logic requires
+        // $transaction->update(['payment_status' => 'pending']); 
+        
+        return redirect()->route('transaction.history')->with('success', 'Pembayaran dikonfirmasi. Silakan tunggu verifikasi.');
+    }
+
+    /**
+     * Show transaction history for the authenticated user.
+     */
+    public function history()
+    {
+        $user = Auth::user();
+        
+        // Ensure user has a buyer profile
+        if (!$user->buyer) {
+             return redirect()->route('customer.home'); 
+        }
+
+        $transactions = Transaction::where('buyer_id', $user->buyer->id)
+            ->with(['transactionDetails.product', 'store'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+            
+        return view('customer.transaction_history', compact('transactions'));
     }
 
 }

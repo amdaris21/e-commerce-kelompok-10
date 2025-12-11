@@ -30,4 +30,8 @@ Route::post('/transaction/process', [TransactionController::class, 'process'])->
 Route::get('/transactions/{transaction}', [TransactionController::class, 'detail'])->name('transaction.detail')->middleware('auth');
 
 
+Route::post('/transaction/{transaction}/confirm', [TransactionController::class, 'confirm'])->name('transaction.confirm')->middleware('auth');
+
+Route::get('/transactions', [TransactionController::class, 'history'])->name('transaction.history')->middleware('auth');
+
 require __DIR__ . '/auth.php';
