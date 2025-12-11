@@ -76,7 +76,7 @@ class TransactionController extends Controller
 
         return redirect()->route('transaction.detail', $transaction->id)
         ->with('success', 'Transaksi berhasil diproses!');
-}
+    }
 
     public function detail(Transaction $transaction)
     {
@@ -86,21 +86,13 @@ class TransactionController extends Controller
 
     public function confirm(Transaction $transaction)
     {
-        // Update status or perform necessary actions
-        // For now, we just redirect to history, maybe setting status to 'pending' if logic requires
-        // $transaction->update(['payment_status' => 'pending']); 
-        
         return redirect()->route('transaction.history')->with('success', 'Pembayaran dikonfirmasi. Silakan tunggu verifikasi.');
     }
 
-    /**
-     * Show transaction history for the authenticated user.
-     */
     public function history()
     {
         $user = Auth::user();
-        
-        // Ensure user has a buyer profile
+
         if (!$user->buyer) {
              return redirect()->route('customer.home'); 
         }
@@ -112,5 +104,4 @@ class TransactionController extends Controller
             
         return view('customer.transaction_history', compact('transactions'));
     }
-
 }

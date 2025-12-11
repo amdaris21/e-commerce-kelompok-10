@@ -34,4 +34,11 @@ Route::post('/transaction/{transaction}/confirm', [TransactionController::class,
 
 Route::get('/transactions', [TransactionController::class, 'history'])->name('transaction.history')->middleware('auth');
 
+Route::post('/cart', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store')->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/checkout/{id}', [App\Http\Controllers\Customer\TransactionController::class, 'show'])->name('transaction.show');
+    Route::post('/checkout', [App\Http\Controllers\Customer\TransactionController::class, 'process'])->name('transaction.process');
+});
+
 require __DIR__ . '/auth.php';

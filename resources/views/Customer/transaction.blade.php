@@ -69,7 +69,6 @@
         color: var(--hitam);
     }
 
-    /* Form Layout */
     .checkout-layout {
         display: grid;
         grid-template-columns: 1.6fr 1fr;
@@ -82,7 +81,6 @@
         }
     }
 
-    /* Cards */
     .card {
         background: var(--hitam);
         border-radius: 20px;
@@ -120,7 +118,6 @@
         letter-spacing: 0.5px;
     }
 
-    /* Form Inputs */
     .form-group {
         margin-bottom: 20px;
     }
@@ -157,7 +154,6 @@
         gap: 20px;
     }
 
-    /* Product Item in List */
     .order-item {
         display: flex;
         gap: 16px;
@@ -188,7 +184,6 @@
         font-size: 14px;
     }
 
-    /* Summary Sidebar */
     .summary-card {
         position: sticky;
         top: 100px;
@@ -229,7 +224,6 @@
         transform: translateY(-2px);
     }
 
-    /* Helpers */
     .text-danger { color: #ff6b6b; font-size: 12px; margin-top: 4px; display: block; }
     .flash-success {
         background: #22c55e;
@@ -239,6 +233,32 @@
         text-align: center;
         font-weight: 700;
         margin-bottom: 20px;
+    }
+
+    .qty-control {
+        display: flex; 
+        align-items: center; 
+        gap: 10px; 
+        margin-top: 8px;
+    }
+    .qty-btn {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 1px solid #333;
+        background: #222;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-family: monospace;
+        transition: 0.2s;
+    }
+    .qty-btn:hover {
+        background: #333;
+        color: var(--pink);
     }
 </style>
 
@@ -265,14 +285,11 @@
         @csrf
         <input type="hidden" name="store_id" value="{{ $product->store_id }}">
         <input type="hidden" name="product_id" value="{{ $product->id }}">
-        
-        <!-- Assuming quantity is passed or default 1 -->
+
         <input type="hidden" name="quantity" value="{{ request('quantity', 1) }}">
 
-        <!-- LEFT COLUMN -->
         <div class="left-column">
-            
-            <!-- SECTION 1: Alamat -->
+
             <div class="card">
                 <div class="card-header">
                     <div class="step-number">1</div>
@@ -316,7 +333,6 @@
                 </div>
             </div>
 
-            <!-- SECTION 2: Produk -->
             <div class="card">
                  <div class="card-header">
                     <div class="step-number">2</div>
@@ -328,7 +344,7 @@
                         <div class="order-name">{{ $product->name }}</div>
                         <div class="order-price">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
                         <!-- Quantity Control -->
-                        <div class="qty-control" style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+                        <div class="qty-control">
                             <button type="button" class="qty-btn" id="qty-minus">-</button>
                             <span id="qty-display" style="font-weight:700;">{{ request('quantity', 1) }}</span>
                             <button type="button" class="qty-btn" id="qty-plus">+</button>
@@ -339,7 +355,6 @@
 
         </div>
 
-        <!-- RIGHT COLUMN -->
         <div class="right-column">
             <div class="card summary-card">
                  <div class="card-header" style="border:none; padding:0; margin-bottom:20px;">
@@ -348,7 +363,7 @@
                 
                 <div class="summary-row">
                     <span>Subtotal Produk</span>
-                    <span>Rp {{ number_format($product->price * request('quantity', 1), 0, ',', '.') }}</span>
+                    <span id="subtotal-display">Rp {{ number_format($product->price * request('quantity', 1), 0, ',', '.') }}</span>
                 </div>
                 <div class="summary-row">
                     <span>Biaya Layanan</span>
@@ -356,7 +371,7 @@
                 </div>
                 <div class="summary-row">
                     <span>Pengiriman</span>
-                    <span>-</span> 
+                    <span id="shipping-display">-</span> 
                 </div>
 
                 <div class="summary-row total">
@@ -377,19 +392,18 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const shippingSelect = document.querySelector('select[name="shipping_type"]');
-        const shippingDisplay = document.querySelector('.summary-row:nth-child(4) span:last-child'); // Pengiriman row
+        const shippingDisplay = document.getElementById('shipping-display');
         const totalDisplay = document.getElementById('total-price');
-        const subtotalDisplay = document.querySelector('.summary-row:nth-child(2) span:last-child'); // Subtotal row
-        
-        // Quantity Elements
+        const subtotalDisplay = document.getElementById('subtotal-display');
+
         const qtyInput = document.querySelector('input[name="quantity"]');
         const qtyDisplay = document.getElementById('qty-display');
         const btnMinus = document.getElementById('qty-minus');
         const btnPlus = document.getElementById('qty-plus');
-        
-        // Base values
+
         const productPrice = {{ $product->price }};
         const serviceFee = 2000;
+        const maxStock = {{ $product->stock }};
         
         let currentQty = parseInt(qtyInput.value) || 1;
         let currentShippingCost = 0;
@@ -405,18 +419,15 @@
         }
 
         function updateTotals() {
-            // Calculate totals
             const subtotal = productPrice * currentQty;
             const grandTotal = subtotal + serviceFee + currentShippingCost;
-            
-            // Update DOM
+
             qtyDisplay.textContent = currentQty;
             qtyInput.value = currentQty;
             subtotalDisplay.textContent = formatRupiah(subtotal);
             totalDisplay.textContent = formatRupiah(grandTotal);
         }
 
-        // Shipping Change Listener
         shippingSelect.addEventListener('change', function() {
             const selectedType = this.value;
             currentShippingCost = shippingCosts[selectedType] || 0;
@@ -430,7 +441,6 @@
             updateTotals();
         });
 
-        // Quantity Listeners
         btnMinus.addEventListener('click', function() {
             if (currentQty > 1) {
                 currentQty--;
@@ -439,30 +449,12 @@
         });
 
         btnPlus.addEventListener('click', function() {
-            currentQty++;
-            updateTotals();
+            if (currentQty < maxStock) {
+                currentQty++;
+                updateTotals();
+            }
         });
     });
 </script>
-
-<style>
-    .qty-btn {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        border: 1px solid #333;
-        background: #222;
-        color: white;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-family: monospace;
-    }
-    .qty-btn:hover {
-        background: #333;
-    }
-</style>
 
 </x-customer-layout>
