@@ -5,10 +5,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Seller\ProductCategoryController;
 use App\Http\Controllers\Seller\ProductController;
 use App\Http\Controllers\Customer\TransactionController;
+use App\Http\Controllers\Customer\CustomerHomeController;
+use App\Http\Controllers\CartController;
 
+// Homepage
+Route::get('/', [CustomerHomeController::class, 'index'])->name('customer.home');
+Route::get('/search', [CustomerHomeController::class, 'search'])->name('customer.search');
 
+// Dashboard & Profile
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect()->route('customer.home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -17,28 +23,30 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Seller Routes
 Route::middleware(['auth', 'verified'])->prefix('seller/dashboard')->name('seller.')->group(function () {
     Route::get('/', [ProductController::class, 'dashboard'])->name('dashboard');
     Route::resource('categories', ProductCategoryController::class);
     Route::resource('products', ProductController::class);
 });
 
+// Customer Product & Transaction Routes
+Route::get('/products/{id}', [CustomerHomeController::class, 'show'])->name('customer.product.show');
 
-Route::get('/transaction/{product}', [TransactionController::class, 'show'])->name('transaction.show');
-Route::post('/transaction/process', [TransactionController::class, 'process'])->name('transaction.process')->middleware('auth');
-
-Route::get('/transactions/{transaction}', [TransactionController::class, 'detail'])->name('transaction.detail')->middleware('auth');
-
-
-Route::post('/transaction/{transaction}/confirm', [TransactionController::class, 'confirm'])->name('transaction.confirm')->middleware('auth');
-
-Route::get('/transactions', [TransactionController::class, 'history'])->name('transaction.history')->middleware('auth');
-
-Route::post('/cart', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store')->middleware('auth');
-
+// Consolidating Transaction Routes
+// Using the 'transaction.show' name for proper linking
 Route::middleware('auth')->group(function () {
-    Route::get('/checkout/{id}', [App\Http\Controllers\Customer\TransactionController::class, 'show'])->name('transaction.show');
-    Route::post('/checkout', [App\Http\Controllers\Customer\TransactionController::class, 'process'])->name('transaction.process');
+    // Checkout/Transaction Process
+    Route::get('/checkout/{product}', [TransactionController::class, 'show'])->name('transaction.show');
+    Route::post('/checkout', [TransactionController::class, 'process'])->name('transaction.process');
+    
+    // Transaction History & Details
+    Route::get('/transactions', [TransactionController::class, 'history'])->name('transaction.history');
+    Route::get('/transactions/{transaction}', [TransactionController::class, 'detail'])->name('transaction.detail');
+    Route::post('/transaction/{transaction}/confirm', [TransactionController::class, 'confirm'])->name('transaction.confirm');
+    
+    // Cart
+    Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
 });
 
 require __DIR__ . '/auth.php';

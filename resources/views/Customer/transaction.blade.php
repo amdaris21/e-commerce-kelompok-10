@@ -146,6 +146,16 @@
         border-color: var(--putih);
         background: #000;
     }
+    
+    /* Fix Autofill Background & Text Color */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active{
+        -webkit-box-shadow: 0 0 0 30px #111 inset !important;
+        -webkit-text-fill-color: var(--putih) !important;
+        transition: background-color 5000s ease-in-out 0s;
+    }
     textarea { min-height: 100px; resize: vertical; }
 
     .grid-2 {
@@ -260,19 +270,27 @@
         background: #333;
         color: var(--pink);
     }
+    .store-mini {
+        display: flex; 
+        align-items: center; 
+        gap: 8px; 
+        margin-bottom: 8px;
+    }
+    .store-mini img { 
+        width: 24px; 
+        height: 24px; 
+        border-radius: 50%; 
+        object-fit: cover; 
+    }
+    .store-mini span { 
+        font-size: 12px; 
+        color: #aaa; 
+        font-weight: 600; 
+        text-transform: uppercase; 
+    }
 </style>
 
-<header>
-    <div class="header-bar">
-        <a href="{{ route('customer.home') }}" class="brand">
-            <div class="brand-logo">Y2K</div>
-            <div>
-                <div class="brand-name">Y2K Accessories</div>
-                <div class="brand-tag">ring • necklace • bracelet • charms</div>
-            </div>
-        </a>
-    </div>
-</header>
+<div class="header-bar" style="display:none;"></div>
 
 <main class="container">
     <h1 class="page-title">Checkout</h1>
@@ -298,7 +316,7 @@
                 
                 <div class="form-group">
                     <label>Nama Lengkap *</label>
-                    <input type="text" name="fullname" placeholder="Masukkan nama lengkap Anda" value="{{ old('fullname', auth()->user()->name ?? '') }}" required>
+                    <input type="text" name="fullname" placeholder="Masukkan nama lengkap Anda" value="{{ old('fullname') }}" required>
                     @error('fullname') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
 
@@ -329,6 +347,7 @@
                         <option value="express">Express (Rp 25.000)</option>
                         <option value="same_day">Same Day (Rp 50.000)</option>
                     </select>
+
                      @error('shipping_type') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
             </div>
@@ -338,12 +357,22 @@
                     <div class="step-number">2</div>
                     <h2 class="card-title">Detail Pesanan</h2>
                 </div>
+
                 <div class="order-item">
                     <img src="{{ asset('storage/' . ($product->thumbnail->image ?? ($product->images->first()->image ?? 'images/default-product.png'))) }}" alt="{{ $product->name }}" class="order-img">
                     <div class="order-info">
+                        <div class="store-mini">
+                            @if(optional($product->store)->logo)
+                                <img src="{{ asset('storage/' . $product->store->logo) }}" alt="{{ $product->store->name }}">
+                            @else
+                                <div style="width:24px; height:24px; border-radius:50%; background:#333; display:grid; place-items:center; font-size:10px; font-weight:bold; color:#fff;">
+                                    {{ substr(optional($product->store)->name ?? 'S', 0, 1) }}
+                                </div>
+                            @endif
+                            <span>{{ optional($product->store)->name ?? 'Store' }}</span>
+                        </div>
                         <div class="order-name">{{ $product->name }}</div>
                         <div class="order-price">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
-                        <!-- Quantity Control -->
                         <div class="qty-control">
                             <button type="button" class="qty-btn" id="qty-minus">-</button>
                             <span id="qty-display" style="font-weight:700;">{{ request('quantity', 1) }}</span>
@@ -395,19 +424,15 @@
         const shippingDisplay = document.getElementById('shipping-display');
         const totalDisplay = document.getElementById('total-price');
         const subtotalDisplay = document.getElementById('subtotal-display');
-
         const qtyInput = document.querySelector('input[name="quantity"]');
         const qtyDisplay = document.getElementById('qty-display');
         const btnMinus = document.getElementById('qty-minus');
         const btnPlus = document.getElementById('qty-plus');
-
         const productPrice = {{ $product->price }};
         const serviceFee = 2000;
         const maxStock = {{ $product->stock }};
-        
         let currentQty = parseInt(qtyInput.value) || 1;
         let currentShippingCost = 0;
-
         const shippingCosts = {
             'reguler': 10000,
             'express': 25000,
@@ -421,7 +446,6 @@
         function updateTotals() {
             const subtotal = productPrice * currentQty;
             const grandTotal = subtotal + serviceFee + currentShippingCost;
-
             qtyDisplay.textContent = currentQty;
             qtyInput.value = currentQty;
             subtotalDisplay.textContent = formatRupiah(subtotal);

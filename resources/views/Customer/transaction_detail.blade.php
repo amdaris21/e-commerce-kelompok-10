@@ -301,22 +301,27 @@
             grid-template-columns: 1fr;
         }
     }
+    .store-mini {
+        display: flex; 
+        align-items: center; 
+        gap: 8px; 
+        margin-bottom: 8px;
+    }
+    .store-mini img { 
+        width: 20px; 
+        height: 20px; 
+        border-radius: 50%; 
+        object-fit: cover; 
+    }
+    .store-mini span { 
+        font-size: 11px; 
+        color: #aaa; 
+        font-weight: 600; 
+        text-transform: uppercase; 
+    }
 </style>
 
-<header>
-    <div class="header-bar">
-        <a href="{{ route('customer.home') }}" class="brand">
-            <div class="brand-logo">Y2K</div>
-            <div>
-                <div class="brand-name">Y2K Accessories</div>
-                <div class="brand-tag">ring • necklace • bracelet • charms</div>
-            </div>
-        </a>
-    </div>
-</header>
-
 <div class="page-header">
-    <!-- Title Removed as per request -->
     <div class="order-id">ID Pesanan: #{{ $transaction->code }}</div>
 </div>
 
@@ -326,8 +331,8 @@
         <div class="card">
             <h3 class="card-title">Status Pembayaran</h3>
             <div class="status-box">
-                <div class="status-icon">
-                    <i class="fa-solid fa-exclamation"></i>
+                <div class="status-icon" style="font-weight:900; font-family:sans-serif;">
+                    !
                 </div>
                 <div class="status-text">Pembayaran Diperlukan</div>
                 <div class="status-desc">Silakan selesaikan pembayaran Anda untuk memproses pesanan.</div>
@@ -366,6 +371,16 @@
             <div class="summary-item">
                 <img src="{{ asset('storage/' . ($detail->product->thumbnail->image ?? 'images/default-product.png')) }}" class="summary-img" alt="product">
                 <div class="summary-info">
+                    <div class="store-mini">
+                         @if(optional($detail->product->store)->logo)
+                            <img src="{{ asset('storage/' . $detail->product->store->logo) }}" alt="{{ $detail->product->store->name }}">
+                        @else
+                            <div style="width:20px; height:20px; border-radius:50%; background:#eee; display:grid; place-items:center; font-size:9px; font-weight:bold; color:#333;">
+                                {{ substr(optional($detail->product->store)->name ?? 'S', 0, 1) }}
+                            </div>
+                        @endif
+                        <span>{{ optional($detail->product->store)->name ?? 'Store' }}</span>
+                    </div>
                     <div class="summary-name">{{ $detail->product->name }}</div>
                     <div class="summary-price">{{ $detail->qty }}x Rp{{ number_format($detail->product->price, 0, ',', '.') }}</div>
                 </div>
@@ -377,7 +392,11 @@
 
             <div class="calc-row">
                 <span>Subtotal</span>
-                <span>Rp{{ number_format($transaction->grand_total - $transaction->shipping_cost - $transaction->tax, 0, ',', '.') }}</span>
+                <span>Rp{{ number_format($transaction->transactionDetails->sum('subtotal'), 0, ',', '.') }}</span>
+            </div>
+            <div class="calc-row">
+                <span>Biaya Layanan</span>
+                <span>Rp 2.000</span>
             </div>
             <div class="calc-row">
                 <span>Pengiriman</span>

@@ -9,17 +9,23 @@ use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Models\Buyer;
 
 class TransactionController extends Controller
 {
+
     public function show(Product $product)
     {
         return view('customer.transaction', compact('product'));
+
     }
+
+
 
     public function process(Request $request)
     {
         $request->validate([
+
             'fullname' => 'required|string|max:255',
             'address' => 'required|string',
             'city' => 'required|string|max:100',
@@ -30,7 +36,12 @@ class TransactionController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $buyerId = Auth::user()->buyer->id ?? null;
+        $user = Auth::user();
+        if (!$user->buyer) {
+            Buyer::create(['user_id' => $user->id]);
+            $user->refresh();
+        }
+        $buyerId = $user->buyer->id;
 
         $transactionCode = 'TRX-' . Str::upper(Str::random(8));
 
@@ -47,8 +58,9 @@ class TransactionController extends Controller
         $subtotal = $product->price * $request->quantity;
 
         $tax = 0; 
+        $serviceFee = 2000;
 
-        $grandTotal = $subtotal + $shippingCost + $tax;
+        $grandTotal = $subtotal + $shippingCost + $tax + $serviceFee;
 
         $transaction = Transaction::create([
             'code' => $transactionCode,
@@ -76,21 +88,26 @@ class TransactionController extends Controller
 
         return redirect()->route('transaction.detail', $transaction->id)
         ->with('success', 'Transaksi berhasil diproses!');
+
     }
 
     public function detail(Transaction $transaction)
     {
+
     $transaction->load(['transactionDetails.product', 'store', 'buyer']);
     return view('customer.transaction_detail', compact('transaction'));
+
     }
 
     public function confirm(Transaction $transaction)
     {
+
         return redirect()->route('transaction.history')->with('success', 'Pembayaran dikonfirmasi. Silakan tunggu verifikasi.');
     }
 
     public function history()
     {
+
         $user = Auth::user();
 
         if (!$user->buyer) {
@@ -103,5 +120,6 @@ class TransactionController extends Controller
             ->paginate(10);
             
         return view('customer.transaction_history', compact('transactions'));
+
     }
 }

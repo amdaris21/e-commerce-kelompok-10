@@ -49,6 +49,6 @@ class RegisteredUserController extends Controller
             return redirect(route('customer.home', absolute: false));
         }
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('customer.home', absolute: false));
     }
 }

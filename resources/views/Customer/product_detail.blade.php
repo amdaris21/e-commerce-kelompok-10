@@ -1,9 +1,37 @@
 <x-customer-layout>
 
 <style>
-    :root {
-         --pink_tua: #d26b6bff;
-         --pink: #f0bbbbff;
+    /* Menggunakan variabel warna dari Homepage (Light Theme) */
+    :root{
+        --bg: #FFFAFB; 
+        --panel: #FFFFFF;
+        --panel2: #FFF0F5; 
+        --garis: #E6D0D8;
+        --garis2: #D1B3BE;
+        --teks: #2D2D2D; 
+        --muted: #666666;
+        --muted2: #888888;
+        --putih: #FFFFFF;
+        --hitam: #000000;
+        --pink-accent: #FFB6C1;
+        --pink_tua: #d26b6bff;
+    }
+
+    /* Style Header agar sama persis dengan Homepage */
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(255, 250, 251, 0.95);
+        border-bottom: 1px solid var(--garis);
+        backdrop-filter: blur(10px);
+    }
+
+    body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--teks);
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
     main.container {
@@ -15,12 +43,12 @@
         grid-template-columns: 1fr 1.3fr;
         gap: 48px;
         align-items: start;
-        background-color: #0E0E0E; /* Force Black Box on Pink Global BG */
+        background-color: var(--panel);
         padding: 30px;
         border-radius: 24px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-        border: 1px solid #222;
-        color: #FFFFFF;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+        border: 1px solid var(--garis);
+        color: var(--teks);
     }
     @media (max-width: 768px) {
         .product-detail {
@@ -33,8 +61,8 @@
     .product-photo {
         border-radius: 24px;
         overflow: hidden;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.85);
-        background: #0E0E0E;
+        background: var(--panel2);
+        border: 1px solid var(--garis);
     }
     .product-photo img {
         width: 100%;
@@ -49,9 +77,44 @@
     .product-body {
         padding: 0 12px;
     }
+    
+    /* Store Info Styles */
+    .store-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--garis);
+    }
+    .store-logo {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: var(--panel2);
+        border: 1px solid var(--garis);
+    }
+    .store-name-box {
+        display: flex;
+        flex-direction: column;
+    }
+    .store-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        color: var(--muted2);
+        letter-spacing: 0.5px;
+        font-weight: 700;
+    }
+    .store-name {
+        font-weight: 800;
+        font-size: 16px;
+        color: var(--teks);
+    }
+
     .product-category {
         font-size: 14px;
-        color: #AAA;
+        color: var(--muted2);
         text-transform: uppercase;
         letter-spacing: 1.2px;
         margin-bottom: 8px;
@@ -60,18 +123,18 @@
         font-size: 32px;
         font-weight: 900;
         margin-bottom: 12px;
-        color: #FFFFFF;
+        color: var(--teks);
     }
     .product-price {
         font-size: 24px;
         font-weight: 800;
-        color: #FFFFFF;
+        color: var(--teks);
         margin-bottom: 20px;
     }
     .product-description {
         font-size: 16px;
         line-height: 1.6;
-        color: #CCCCCC;
+        color: var(--muted);
         margin-bottom: 30px;
     }
 
@@ -87,15 +150,15 @@
     .qty-control {
         display: flex;
         align-items: center;
-        border: 1px solid #333;
+        border: 1px solid var(--garis2);
         padding: 4px;
         border-radius: 12px;
-        background: #1A1A1A;
+        background: var(--panel);
     }
     .qty-btn {
         background: transparent;
         border: none;
-        color: #FFF;
+        color: var(--teks);
         width: 32px;
         height: 32px;
         font-weight: 700;
@@ -105,19 +168,18 @@
         transition: 0.2s;
     }
     .qty-btn:hover {
-        color: var(--pink-accent);
-        background: rgba(255,255,255,0.05);
+        color: var(--pink_tua);
+        background: var(--panel2);
         border-radius: 8px;
     }
     .qty-input {
         background: transparent;
         border: none;
-        color: #FFF;
+        color: var(--teks);
         width: 40px;
         text-align: center;
         font-weight: 700;
         font-size: 16px;
-        /* Hide Default Spinners */
         -moz-appearance: textfield;
     }
     .qty-input::-webkit-outer-spin-button,
@@ -126,7 +188,7 @@
         margin: 0;
     }
     .qty-stock {
-        color: #888;
+        color: var(--muted2);
         font-size: 14px;
     }
 
@@ -138,23 +200,23 @@
         width: 100%;
         padding: 16px 0;
         border-radius: 16px;
-        border: 1px solid #FFF;
+        border: 1px solid var(--teks);
         background: transparent;
-        color: #FFF;
+        color: var(--teks);
         font-weight: 900;
         cursor: pointer;
         transition: 0.3s;
     }
     .btn-add-cart:hover {
-        background: #FFF;
-        color: #000;
+        background: var(--teks);
+        color: var(--putih);
     }
 
     .btn-full {
         display: inline-block;
         width: 100%;
-        background-color: var(--pink);
-        color: var(--hitam);
+        background-color: var(--teks);
+        color: var(--putih);
         font-weight: 900;
         padding: 16px 0;
         border-radius: 16px;
@@ -162,36 +224,37 @@
         cursor: pointer;
         text-align: center;
         text-decoration: none;
-        transition: background-color 0.3s ease;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .btn-full:hover {
-        background-color: var(--pink_tua);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .product-reviews {
         margin-top: 40px;
-        border-top: 1px solid #333;
+        border-top: 1px solid var(--garis);
         padding-top: 24px;
     }
     .product-reviews h2 {
         font-size: 24px;
         font-weight: 700;
-        color: #FFFFFF;
+        color: var(--teks);
         margin-bottom: 16px;
     }
     .review {
         margin-bottom: 20px;
         padding-bottom: 16px;
-        border-bottom: 1px solid #222;
-        color: #CCC;
+        border-bottom: 1px solid var(--garis);
+        color: var(--muted);
     }
     .review strong {
-        color: #FFF;
+        color: var(--teks);
         font-weight: 700;
     }
     .review-date {
         font-size: 14px;
-        color: #888;
+        color: var(--muted2);
     }
     .review p {
         margin: 8px 0 0;
@@ -209,6 +272,22 @@
             @endif
         </div>
         <div class="product-body">
+            
+            <!-- Store Info -->
+            <div class="store-info">
+                 @if(optional($product->store)->logo)
+                    <img src="{{ asset('storage/' . $product->store->logo) }}" alt="{{ $product->store->name }}" class="store-logo">
+                @else
+                    <div class="store-logo" style="display:grid; place-items:center; font-weight:bold; color:var(--muted);">
+                        {{ substr(optional($product->store)->name ?? 'S', 0, 1) }}
+                    </div>
+                @endif
+                <div class="store-name-box">
+                    <span class="store-label">Dijual Oleh</span>
+                    <span class="store-name">{{ optional($product->store)->name ?? 'Store' }}</span>
+                </div>
+            </div>
+
             <div class="product-category">
                 {{ optional($product->category)->name ?? 'Uncategorized' }}
             </div>
@@ -217,7 +296,7 @@
                 Rp {{ number_format($product->price, 0, ',', '.') }}
             </div>
             <div class="product-description">
-                {{ $product->about }}
+                {{ $product->description }}
             </div>
 
             <!-- Quantity & Actions -->
@@ -306,3 +385,4 @@
     });
 </script>
 </x-customer-layout>
+

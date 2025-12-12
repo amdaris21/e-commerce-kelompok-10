@@ -7,169 +7,139 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800,900&display=swap" rel="stylesheet" />
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     <style>
         :root{
-            --bg: #FAF9F6; /* Putih Tulang / Bone White */
-            --panel: #FFFFFF;
-            --panel2: #FFF0F5;
-            --garis: #FFC0CB; /* Pink Muda */
-            --garis2: #FFB6C1;
-            --teks: #000000;
-            --muted: #888888;
-            --muted2: #666666;
+            --bg: #0B0B0B;
+            --panel: #121212;
+            --panel2: #171717;
+            --garis: #242424;
+            --garis2: #343434;
+            --teks: #F2F2F2;
+            --muted: #B9B9B9;
+            --muted2: #9C9C9C;
             --putih: #FFFFFF;
             --hitam: #000000;
-            --pink-accent: #FF69B4;
+            --pink: #f0bbbbff;
+            --pink-tua: #d26b6bff;
         }
-        body {
-            font-family: 'Figtree', sans-serif;
-            background-color: var(--bg);
-            color: var(--teks);
+
+        *{ box-sizing: border-box; }
+        html, body {
+            height: 100%;
             margin: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            background: var(--bg);
+            color: var(--teks);
+            font-family: 'Figtree', sans-serif;
         }
+
         .container {
             max-width: 1120px;
             margin: 0 auto;
-            padding: 0 16px;
+            padding: 0 20px;
         }
-        
-        /* Header & Nav - WHITE THEME */
+
         header {
             position: sticky;
             top: 0;
             z-index: 50;
-            background: #FFFFFF;
-            border-bottom: 1px solid #E5E5E5;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            background: var(--bg);
+            border-bottom: 1px solid var(--garis);
         }
+
         .header-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 24px;
-            padding: 14px 0;
+            gap: 14px;
+            padding: 12px 0;
         }
+
         .brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             text-decoration: none;
-            color: #000;
+            color: var(--teks);
         }
         .brand-logo {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%; /* Circle as per image/modern style */
+            width: 38px;
+            height: 38px;
+            border-radius: 14px;
             display: grid;
             place-items: center;
-            background: #000;
-            color: #FFF;
+            background: var(--putih);
+            color: var(--hitam);
             font-weight: 900;
-            letter-spacing: .5px;
-            font-size: 13px;
+            letter-spacing: 0.5px;
         }
         .brand-name {
             font-weight: 900;
             line-height: 1.1;
-            font-size: 16px;
         }
         .brand-tag {
             font-size: 12px;
-            color: #666;
+            color: var(--muted2);
             margin-top: 2px;
-            font-weight: 500;
         }
 
-        /* Search - Centered Pill */
-        .search{
+        .search {
             display: none;
             flex: 1;
-            max-width: 600px;
+            max-width: 520px;
             position: relative;
         }
-        .search-icon{
+        .search-icon {
             position: absolute;
-            left: 18px;
+            left: 12px;
             top: 50%;
             transform: translateY(-50%);
-            color: #888;
-            font-size: 16px;
+            color: var(--muted2);
+            font-size: 14px;
         }
-        .search input{
+        .search input {
             width: 100%;
-            padding: 12px 12px 12px 48px;
-            border-radius: 99px; /* Pill shape */
-            border: 1px solid #E5E5E5;
-            background: #FFF;
-            color: #000;
+            padding: 10px 12px 10px 34px;
+            border-radius: 18px;
+            border: 1px solid var(--garis);
+            background: #e7e7e7ff;
+            color: #111;
             outline: none;
-            font-weight: 500;
-            font-size: 15px;
-            transition: 0.2s;
+            font-weight: 600;
         }
-        .search input:focus {
-            border-color: #000;
-        }
-        @media (min-width: 768px){
-            .search{ display: block; }
+        @media (min-width: 768px) {
+            .search { display: block; }
         }
 
-        /* Access / Auth Buttons */
-        .auth { display: flex; gap: 12px; align-items: center; }
-        
-        .btn{
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 24px;
-            border-radius: 99px;
-            text-decoration: none;
+        .auth a {
             font-weight: 700;
             font-size: 14px;
-            transition: all 0.2s;
+            padding: 10px 18px;
+            border-radius: 24px;
+            text-decoration: none;
+            transition: background-color 0.25s ease;
+            white-space: nowrap;
         }
-        
-        /* Specific Profile Button Style from Image */
-        .btn-profile {
-            background: #F5F5F5;
-            color: #000;
-            border: 1px solid #E5E5E5;
+        .auth .btn-outline {
+            border: 1px solid var(--garis);
+            background: var(--panel);
+            color: var(--teks);
+            margin-right: 10px;
         }
-        .btn-profile:hover {
-            background: #EAEAEA;
-            border-color: #CCC;
+        .auth .btn-outline:hover {
+            background: var(--panel2);
         }
-
-        .btn-outline{
-            background: transparent;
-            border: 1px solid #000;
-            color: #000;
+        .auth .btn-solid {
+            background: var(--putih);
+            color: var(--hitam);
         }
-        .btn-outline:hover{
-            background: #000;
-            color: #FFF;
-        }
-        .btn-solid{
-            background: #000;
-            color: #FFF;
-        }
-        .btn-solid:hover{
-            background: #333;
-        }
-
-        main {
-            flex: 1;
+        .auth .btn-solid:hover {
+            background: #EEE;
         }
 
         footer {
@@ -178,7 +148,7 @@
             text-align: center;
             color: var(--muted2);
             font-size: 13px;
-            margin-top: 60px;
+            margin-top: 40px;
             background: var(--bg);
         }
     </style>
@@ -187,7 +157,6 @@
     
     <header>
         <div class="container header-bar">
-            <!-- Brand -->
             <a class="brand" href="{{ route('customer.home') }}">
                 <div class="brand-logo">Y2K</div>
                 <div>
@@ -196,35 +165,29 @@
                 </div>
             </a>
 
-            <!-- Search -->
             <form class="search" action="{{ route('customer.search') }}" method="GET">
                 <div class="search-icon">⌕</div>
-                <input type="text" name="q" placeholder="Cari aksesoris y2k..." required>
+                <input type="text" name="q" placeholder="Cari aksesoris y2k..." value="{{ request('q') }}" required>
             </form>
 
-            <!-- Auth / Profile -->
             <div class="auth">
                 @auth
                     @if(auth()->user()->role === 'admin')
-                        <a href="{{ route('dashboard') }}" class="btn btn-outline">Dashboard</a>
+                        <a href="{{ route('dashboard') }}" class="btn-outline">Dashboard</a>
                     @else
-                         <a href="{{ route('profile.edit') }}" class="btn btn-profile">Profile</a>
+                         <a href="{{ route('transaction.history') }}" class="btn-outline">History</a>
+                         <a href="{{ route('profile.edit') }}" class="btn-solid">Profile</a>
                     @endif
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-outline">Log in</a>
-                    <a href="{{ route('register') }}" class="btn btn-solid">Register</a>
+                    <a href="{{ route('login') }}" class="btn-outline">Log in</a>
+                    <a href="{{ route('register') }}" class="btn-solid">Register</a>
                 @endauth
             </div>
         </div>
     </header>
-
-    <main>
+    <div>
         {{ $slot }}
-    </main>
-
-    <footer>
-        © {{ date('Y') }} Y2K Accessories — Laravel
-    </footer>
+    </div>
 
 </body>
 </html>

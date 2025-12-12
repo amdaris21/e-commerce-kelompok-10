@@ -1,56 +1,71 @@
 <x-customer-layout>
     <style>
-        :root {
-            --bg: #FDFBF7; /* Bone White */
-            --card-bg: #FFFFFF;
-            --text-main: #1A1A1A;
-            --text-muted: #666666;
-            --accent-pink: #FFC0CB; /* Light pink */
-            --accent-pink-dark: #d26b6b;
-            --btn-black: #000000;
-            --btn-black-hover: #333333;
-            --border-color: #E6E4DF;
+        /* Hide Layout Header */
+        body > header {
+            display: none !important;
+        }
+
+        :root{
+            --bg: #FFFAFB; 
+            --panel: #FFFFFF;
+            --panel2: #FFF0F5; 
+            --garis: #E6D0D8;
+            --garis2: #D1B3BE;
+            --teks: #2D2D2D; 
+            --muted: #666666;
+            --muted2: #888888;
+            --putih: #FFFFFF;
+            --hitam: #000000;
+            --pink-accent: #FFB6C1;
+            --pink-tua: #d26b6bff;
         }
 
         body {
             background-color: var(--bg);
-            color: var(--text-main);
+            color: var(--teks);
             font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
         }
+        
+        /* Shared Container for consistent alignment */
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-        /* Header Styles */
         header {
             position: sticky;
             top: 0;
-            background: var(--bg);
-            border-bottom: 1px solid var(--border-color);
-            padding: 16px 20px;
             z-index: 50;
+            background: rgba(255, 250, 251, 0.95);
+            border-bottom: 1px solid var(--garis);
+            backdrop-filter: blur(10px);
         }
+
         .header-bar {
-            max-width: 1120px;
-            margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 12px 0;
         }
+        
         .brand {
             display: flex;
             align-items: center;
             gap: 12px;
-            color: var(--text-main);
+            color: var(--teks);
             text-decoration: none;
         }
         .brand-logo {
             width: 42px;
             height: 42px;
-            background: var(--btn-black);
+            background: var(--hitam);
             border-radius: 12px;
             display: grid;
             place-items: center;
             font-weight: 900;
-            color: #FFFFFF;
+            color: var(--putih);
             font-size: 16px;
         }
         .brand-name {
@@ -58,31 +73,33 @@
             font-size: 16px;
             line-height: 1.2;
         }
+
         .brand-tag {
             font-size: 12px;
-            color: var(--text-muted);
+            color: var(--muted);
             font-weight: 500;
         }
+
         .nav-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             background: transparent;
-            border: 1px solid var(--text-main);
-            color: var(--text-main);
+            border: 1px solid var(--garis2);
+            color: var(--teks);
             padding: 8px 20px;
-            border-radius: 50px; /* Pill shape for modern look */
+            border-radius: 50px;
             text-decoration: none;
             font-weight: 700;
             font-size: 14px;
             transition: all 0.2s;
         }
         .nav-btn:hover {
-            background: var(--text-main);
-            color: #FFFFFF;
+            background: var(--teks);
+            color: var(--putih);
             transform: translateY(-1px);
         }
-        
+
         .nav-group {
             display: flex;
             gap: 12px;
@@ -90,25 +107,26 @@
         }
 
         .history-container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
+            max-width: 850px;
+            margin: 40px auto 60px;
+            padding: 0 24px;
         }
 
         .page-title {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 32px;
-            color: var(--text-main);
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 40px;
+            color: var(--teks);
             letter-spacing: -0.5px;
+            text-align: center;
         }
 
         .transaction-card {
-            background: var(--card-bg);
+            background: var(--panel);
             border-radius: 20px;
             padding: 24px;
             margin-bottom: 24px;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--garis);
             box-shadow: 0 4px 20px rgba(0,0,0,0.03);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
@@ -123,7 +141,7 @@
             justify-content: space-between;
             align-items: center;
             padding-bottom: 16px;
-            border-bottom: 1px dashed var(--border-color);
+            border-bottom: 1px dashed var(--garis);
             margin-bottom: 16px;
         }
 
@@ -136,8 +154,8 @@
         .trx-code {
             font-family: monospace;
             font-weight: 700;
-            color: var(--text-main);
-            background: #F0F0F0;
+            color: var(--teks);
+            background: var(--panel2);
             padding: 4px 8px;
             border-radius: 6px;
             font-size: 14px;
@@ -145,7 +163,7 @@
 
         .trx-date {
             font-size: 13px;
-            color: var(--text-muted);
+            color: var(--muted);
         }
 
         .status-badge {
@@ -176,8 +194,8 @@
             height: 60px;
             border-radius: 10px;
             object-fit: cover;
-            background: #f5f5f5;
-            border: 1px solid #eee;
+            background: var(--panel2);
+            border: 1px solid var(--garis);
         }
 
         .trx-info {
@@ -187,7 +205,7 @@
         .store-name {
             font-size: 13px;
             font-weight: 600;
-            color: var(--text-muted);
+            color: var(--muted);
             display: flex;
             align-items: center;
             gap: 6px;
@@ -197,11 +215,11 @@
         .total-price {
             font-size: 18px;
             font-weight: 800;
-            color: var(--text-main);
+            color: var(--teks);
         }
 
         .btn-detail {
-            background: var(--btn-black);
+            background: var(--hitam);
             color: white;
             padding: 12px 24px;
             border-radius: 12px;
@@ -213,20 +231,20 @@
         }
 
         .btn-detail:hover {
-            background: var(--accent-pink);
-            color: var(--btn-black);
+            background: var(--pink-accent);
+            color: var(--hitam);
         }
 
         .empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: var(--text-muted);
+            color: var(--muted);
         }
 
         .empty-icon {
             font-size: 48px;
             margin-bottom: 20px;
-            color: #ddd;
+            color: var(--garis2);
         }
 
         @media (max-width: 600px) {
@@ -249,8 +267,9 @@
         }
     </style>
 
+    <!-- Manual Header (Synced with Homepage) -->
     <header>
-        <div class="header-bar">
+        <div class="container header-bar">
             <a href="{{ route('customer.home') }}" class="brand">
                 <div class="brand-logo">Y2K</div>
                 <div>
@@ -331,14 +350,15 @@
                         <a href="{{ route('transaction.detail', $trx->id) }}" class="btn-detail">
                             Lihat Detail
                         </a>
+
                     </div>
                 </div>
             @endforeach
 
-            <!-- Pagination -->
             <div style="margin-top: 40px;">
                 {{ $transactions->links() }}
             </div>
         @endif
     </div>
+
 </x-customer-layout>
