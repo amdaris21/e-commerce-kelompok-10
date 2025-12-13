@@ -572,7 +572,6 @@
     }
 </style>
 
-
 <main>
 
     <div class="container">

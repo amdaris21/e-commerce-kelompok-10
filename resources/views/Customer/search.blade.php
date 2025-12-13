@@ -1,7 +1,6 @@
 <x-customer-layout>
 
 <style>
-    /* Salin seluruh blok <style> dari home.blade.php di sini untuk konsistensi */
     :root{
         --bg: #FDFBF7;
         --panel: #FFFFFF;
@@ -300,8 +299,6 @@
     }
 </style>
 
-
-
 <main>
     <section class="container section">
         {{-- SEARCH TITLE --}}
@@ -373,7 +370,7 @@
 </main>
 
 <footer>
-    © {{ date('Y') }} Y2K Accessories — Laravel
+    © {{ date('Y') }} Y2K Accessories — IMUPP
 </footer>
 
 </x-customer-layout>

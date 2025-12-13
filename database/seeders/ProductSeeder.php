@@ -4,12 +4,18 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Store;
 
 class ProductSeeder extends Seeder
 {
     public function run(): void
     {
-        $storeId = DB::table('stores')->first()->id ?? 1;
+        $store = Store::where('name', 'wayToCake')->first();
+
+        if (!$store) {
+             throw new \Exception("Store 'wayToCake' belum ditemukan. Seeder UserStoreSeeder HARUS dijalankan dulu.");
+        }
+        $storeId = $store->id;
 
         DB::table('products')->insert([
             [

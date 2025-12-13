@@ -10,13 +10,8 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // bikin user admin
-        // bikin user admin dengan ID 1 jika belum ada
         User::firstOrCreate(
             ['email' => 'admin@example.com'],
             [
@@ -26,12 +21,13 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // panggil seeder lain
         $this->call([
-            StoreSeeder::class,
             ProductCategorySeeder::class,
+            UserStoreSeeder::class,
             ProductSeeder::class,
             ProductImageSeeder::class,
+            AdminUserSeeder::class,
+            
         ]);
     }
 }

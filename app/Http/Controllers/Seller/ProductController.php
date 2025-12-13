@@ -3,19 +3,27 @@
 namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductCategory;
-use Illuminate\Http\Request;
+use App\Models\ProductImage;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
 
     private function getSellerStoreId()
     {
-        return 1;
+        $store = Auth::user()->store;
+
+        if (!$store) {
+            return redirect()->route('seller.store.register')->send();
+        }
+
+        return $store->id;
     }
 
     public function dashboard()
@@ -39,41 +47,65 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $storeId = $this->getSellerStoreId();
+
         $validated = $request->validate([
+            'product_category_id' => 'required|exists:product_categories,id', // Harus ada kategori
             'name' => 'required|string|max:255',
-            'product_category_id' => 'required|exists:product_categories,id',
             'about' => 'required|string',
-            'price' => 'required|numeric|min:100',
-            'stock' => 'required|integer|min:0',
             'condition' => 'required|in:new,used',
-            'weight' => 'required|integer|min:1',
-            'images' => 'required|array|min:1|max:5',
+            'price' => 'required|numeric|min:1',
+            'weight' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'images' => 'required|array|min:1',
             'images.*' => 'image|max:2048',
         ]);
 
-        $storeId = $this->getSellerStoreId();
-
-        $product = Product::create([
-            'store_id' => $storeId,
-            'product_category_id' => $validated['product_category_id'],
-            'name' => $validated['name'],
-            'slug' => Str::slug($validated['name']),
-            'about' => $validated['about'],
-            'price' => $validated['price'],
-            'stock' => $validated['stock'],
-            'condition' => $validated['condition'],
-            'weight' => $validated['weight'],
-        ]);
-
-        foreach ($request->file('images') as $key => $imageFile) {
-            $path = $imageFile->store('products', 'public');
-            $product->images()->create([
-                'image' => 'storage/' . $path,
-                'is_thumbnail' => ($key === 0),
+        DB::beginTransaction();
+        try {
+            $product = Product::create([
+                'store_id' => $storeId,
+                'product_category_id' => $validated['product_category_id'],
+                'name' => $validated['name'],
+                'slug' => Str::slug($validated['name']),
+                'about' => $validated['about'],
+                'condition' => $validated['condition'],
+                'price' => $validated['price'],
+                'weight' => $validated['weight'],
+                'stock' => $validated['stock'],
             ]);
-        }
 
-        return redirect()->route('seller.products.index')->with('success', 'Produk berhasil dibuat!');
+            $isThumbnailSet = false;
+            $productImagesData = [];
+
+            foreach ($request->file('images') as $index => $imageFile) {
+                $path = $imageFile->store('product_images', 'public');
+
+                $is_thumbnail = (!$isThumbnailSet) ? true : false;
+                if ($is_thumbnail) {
+                    $isThumbnailSet = true;
+                }
+
+                $productImagesData[] = new ProductImage([
+                    'image' => 'storage/' . $path,
+                    'is_thumbnail' => $is_thumbnail,
+                ]);
+            }
+
+            $product->images()->saveMany($productImagesData);
+
+            DB::commit();
+
+            return redirect()->route('seller.products.index')->with('success', 'Hore! Produk baru berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            if (isset($productImagesData)) {
+                foreach ($productImagesData as $img) {
+                    Storage::disk('public')->delete(str_replace('storage/', '', $img->image));
+                }
+            }
+            return redirect()->back()->with('error', 'Yah.. Gagal menambahkan produk. Cek input dan coba lagi. (Error: ' . $e->getMessage() . ')')->withInput();
+        }
     }
 
     public function show(Product $product)
@@ -103,7 +135,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'product_category_id' => 'required|exists:product_categories,id',
             'about' => 'required|string',
-            'price' => 'required|numeric|min:100',
+            'price' => 'required|numeric|min:1',
             'stock' => 'required|integer|min:0',
             'condition' => 'required|in:new,used',
             'weight' => 'required|integer|min:1',

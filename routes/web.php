@@ -1,11 +1,14 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Seller\DashboardController;
+use App\Http\Middleware\CheckSeller;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seller\ProductCategoryController;
 use App\Http\Controllers\Seller\ProductController;
-use App\Http\Controllers\Customer\TransactionController;
+use App\Http\Controllers\Seller\StoreController;
 use App\Http\Controllers\Customer\CustomerHomeController;
+use App\Http\Controllers\Customer\TransactionController;
 use App\Http\Controllers\CartController;
 
 // Homepage
@@ -23,12 +26,28 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Seller Routes
-Route::middleware(['auth', 'verified'])->prefix('seller/dashboard')->name('seller.')->group(function () {
-    Route::get('/', [ProductController::class, 'dashboard'])->name('dashboard');
-    Route::resource('categories', ProductCategoryController::class);
-    Route::resource('products', ProductController::class);
-});
+Route::middleware(['auth', 'verified', CheckSeller::class])
+    ->prefix('seller/dashboard')
+    ->name('seller.')
+    ->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+        Route::resource('categories', ProductCategoryController::class);
+        Route::resource('products', ProductController::class);
+
+        Route::controller(StoreController::class)->group(function () {
+            Route::get('/register', 'create')->name('store.register');
+            Route::post('/register', 'store')->name('store.store');
+            Route::get('/manage', 'manage')->name('store.manage');
+            Route::put('/manage', 'update')->name('store.update');
+            Route::delete('/manage', 'destroy')->name('store.destroy');
+        });
+
+        // Placeholder Routes for Sidebar
+        Route::get('/orders', function () { return "Pesanan Page"; })->name('orders.index');
+        Route::get('/balance', function () { return "Saldo Toko Page"; })->name('balance.index');
+        Route::get('/withdraw', function () { return "Penarikan Dana Page"; })->name('withdraw.index');
+    });
 
 // Customer Product & Transaction Routes
 Route::get('/products/{id}', [CustomerHomeController::class, 'show'])->name('customer.product.show');

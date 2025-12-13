@@ -276,7 +276,7 @@
             <!-- Store Info -->
             <div class="store-info">
                  @if(optional($product->store)->logo)
-                    <img src="{{ asset('storage/' . $product->store->logo) }}" alt="{{ $product->store->name }}" class="store-logo">
+                    <img src="{{ $product->store->logo == 'wtc-logo.png' ? asset('images/' . $product->store->logo) : asset($product->store->logo) }}" alt="{{ $product->store->name }}" class="store-logo">
                 @else
                     <div class="store-logo" style="display:grid; place-items:center; font-weight:bold; color:var(--muted);">
                         {{ substr(optional($product->store)->name ?? 'S', 0, 1) }}
@@ -385,4 +385,3 @@
     });
 </script>
 </x-customer-layout>
-
