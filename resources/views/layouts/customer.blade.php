@@ -158,13 +158,20 @@
     
     <header>
         <div class="container header-bar">
-            <a class="brand" href="{{ route('customer.home') }}">
+            <div class="flex items-center gap-4">
+                @if(auth()->check() && auth()->user()->store)
+                    <a href="{{ route('seller.dashboard') }}" style="color: var(--teks);" class="hover:opacity-75 transition-opacity" title="Kembali ke Dashboard">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    </a>
+                @endif
+                <a class="brand" href="{{ route('customer.home') }}">
                 <div class="brand-logo">Y2K</div>
                 <div>
                     <div class="brand-name">Y2K Accessories</div>
                     <div class="brand-tag">ring • necklace • bracelet • sunglasses • charms</div>
                 </div>
             </a>
+            </div>
 
             <form class="search" action="{{ route('customer.search') }}" method="GET">
                 <div class="search-icon">⌕</div>
@@ -173,11 +180,13 @@
 
             <div class="auth">
                 @auth
-                    @if(auth()->user()->role === 'admin')
+    @if(auth()->user()->role === 'admin')
                         <a href="{{ route('dashboard') }}" class="btn-outline">Dashboard</a>
                     @else
-                         <a href="{{ route('transaction.history') }}" class="btn-outline">History</a>
-                         <a href="{{ route('profile.edit') }}" class="btn-solid">Profile</a>
+                        @if(!auth()->user()->store)
+                            <a href="{{ route('transaction.history') }}" class="btn-outline">History</a>
+                            <a href="{{ route('profile.edit') }}" class="btn-solid">Profile</a>
+                        @endif
                     @endif
                 @else
                     <a href="{{ route('login') }}" class="btn-outline">Log in</a>

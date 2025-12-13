@@ -44,9 +44,19 @@ Route::middleware(['auth', 'verified', CheckSeller::class])
         });
 
         // Placeholder Routes for Sidebar
-        Route::get('/orders', function () { return "Pesanan Page"; })->name('orders.index');
-        Route::get('/balance', function () { return "Saldo Toko Page"; })->name('balance.index');
-        Route::get('/withdraw', function () { return "Penarikan Dana Page"; })->name('withdraw.index');
+        Route::controller(\App\Http\Controllers\Seller\OrderController::class)->group(function () {
+            Route::get('/orders', 'index')->name('orders.index');
+            Route::get('/orders/{id}', 'show')->name('orders.show');
+            Route::put('/orders/{id}', 'update')->name('orders.update');
+            Route::post('/orders/{id}/confirm', 'confirm')->name('orders.confirm');
+            Route::post('/orders/{id}/reject', 'reject')->name('orders.reject');
+        });
+        Route::controller(\App\Http\Controllers\Seller\BalanceController::class)->prefix('balance')->name('balance.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/bank', 'updateBank')->name('updateBank');
+            Route::get('/withdraw', 'withdraw')->name('withdraw');
+            Route::post('/withdraw', 'processWithdraw')->name('processWithdraw');
+        });
     });
 
 // Customer Product & Transaction Routes

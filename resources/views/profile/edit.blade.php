@@ -1,24 +1,28 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-bold text-xl text-gray-800 leading-tight flex items-center gap-2">
-            <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-            {{ __('Profile Saya') }}
-        </h2>
+        <div class="flex items-center gap-4">
+            <a href="{{ route('seller.dashboard') }}" class="text-white hover:text-gray-300 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            </a>
+            <h2 class="font-black text-xl text-[#EDEDEC] leading-tight flex items-center gap-2">
+                <span class="tracking-wide">{{ __('Profile Saya') }}</span>
+            </h2>
+        </div>
     </x-slot>
 
-    <div class="py-12 bg-gray-50 min-h-screen">
+    <div class="py-12 bg-[#0a0a0a] min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Profile Info -->
-                <div class="p-4 sm:p-8 bg-white shadow-sm sm:rounded-2xl border border-gray-100">
+                <div class="p-4 sm:p-8 bg-[#161616] shadow-lg sm:rounded-[20px] border border-white/10">
                     <div class="max-w-xl">
                         @include('profile.partials.update-profile-information-form')
                     </div>
                 </div>
 
                 <!-- Update Password -->
-                <div class="p-4 sm:p-8 bg-white shadow-sm sm:rounded-2xl border border-gray-100">
+                <div class="p-4 sm:p-8 bg-[#161616] shadow-lg sm:rounded-[20px] border border-white/10">
                     <div class="max-w-xl">
                         @include('profile.partials.update-password-form')
                     </div>
@@ -26,7 +30,7 @@
             </div>
 
             <!-- Delete Account -->
-            <div class="p-4 sm:p-8 bg-white shadow-sm sm:rounded-2xl border border-gray-100">
+            <div class="p-4 sm:p-8 bg-[#161616] shadow-lg sm:rounded-[20px] border border-white/10">
                 <div class="max-w-xl">
                     @include('profile.partials.delete-user-form')
                 </div>

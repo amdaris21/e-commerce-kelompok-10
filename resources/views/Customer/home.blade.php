@@ -575,6 +575,12 @@
 <main>
 
     <div class="container">
+        @if(auth()->check() && auth()->user()->store)
+            <div style="background: #F8B444; color: #000; padding: 12px; border-radius: 12px; font-weight: 700; text-align: center; margin-bottom: 24px; border: 1px solid #E6A539;">
+                <span>Anda login sebagai Seller. Halaman ini hanya untuk preview tampilan.</span>
+            </div>
+        @endif
+
         <div class="slider-container">
             <div class="slider-track" id="sliderTrack">
                 <div class="slide">

@@ -402,6 +402,10 @@
                     <span>Pengiriman</span>
                     <span id="shipping-display">-</span> 
                 </div>
+                <div class="summary-row">
+                    <span>Pajak (11%)</span>
+                    <span id="tax-display">Rp 0</span>
+                </div>
 
                 <div class="summary-row total">
                     <span>Total Pembayaran</span>
@@ -443,12 +447,16 @@
             return 'Rp ' + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         }
 
+        const taxDisplay = document.getElementById('tax-display');
+
         function updateTotals() {
             const subtotal = productPrice * currentQty;
-            const grandTotal = subtotal + serviceFee + currentShippingCost;
+            const tax = subtotal * 0.11;
+            const grandTotal = subtotal + serviceFee + currentShippingCost + tax;
             qtyDisplay.textContent = currentQty;
             qtyInput.value = currentQty;
             subtotalDisplay.textContent = formatRupiah(subtotal);
+            taxDisplay.textContent = formatRupiah(tax);
             totalDisplay.textContent = formatRupiah(grandTotal);
         }
 

@@ -25,6 +25,9 @@ class Store extends Model
         'address',
         'postal_code',
         'is_verified',
+        'bank_name',
+        'bank_account_number',
+        'bank_account_name',
     ];
 
     public function user()

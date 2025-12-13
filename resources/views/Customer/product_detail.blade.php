@@ -310,20 +310,26 @@
                     <span class="qty-stock">Stok Tersedia: {{ $product->stock }}</span>
                 </div>
 
-                <div class="action-row">
-                    <form action="{{ route('cart.store') }}" method="POST" style="flex: 1;">
-                        @csrf
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <input type="hidden" id="qty-form-input" name="quantity" value="1">
-                        <button type="submit" class="btn-add-cart">MASUKKAN KERANJANG</button>
-                    </form>
-                    
-                    <a href="#" onclick="event.preventDefault(); document.getElementById('checkout-form').submit();" class="btn-full" style="flex: 1;">CHECKOUT</a>
-                    
-                    <form id="checkout-form" action="{{ route('transaction.show', $product->id) }}" method="GET" style="display: none;">
-                        <input type="hidden" id="qty-checkout-input" name="quantity" value="1">
-                    </form>
-                </div>
+                @if(auth()->check() && auth()->user()->store)
+                    <div class="w-full p-4 bg-gray-100 text-gray-500 text-center rounded-xl font-bold border border-gray-200">
+                        Anda login sebagai Seller. Halaman ini hanya untuk preview tampilan.
+                    </div>
+                @else
+                    <div class="action-row">
+                        <form action="{{ route('cart.store') }}" method="POST" style="flex: 1;">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" id="qty-form-input" name="quantity" value="1">
+                            <button type="submit" class="btn-add-cart">MASUKKAN KERANJANG</button>
+                        </form>
+                        
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('checkout-form').submit();" class="btn-full" style="flex: 1;">CHECKOUT</a>
+                        
+                        <form id="checkout-form" action="{{ route('transaction.show', $product->id) }}" method="GET" style="display: none;">
+                            <input type="hidden" id="qty-checkout-input" name="quantity" value="1">
+                        </form>
+                    </div>
+                @endif
             </div>
         </div>
 

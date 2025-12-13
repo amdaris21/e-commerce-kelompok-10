@@ -403,7 +403,7 @@
                 <span>Rp{{ number_format($transaction->shipping_cost, 0, ',', '.') }}</span>
             </div>
             <div class="calc-row">
-                <span>Pajak</span>
+                <span>Pajak (11%)</span>
                 <span>Rp{{ number_format($transaction->tax, 0, ',', '.') }}</span>
             </div>
 

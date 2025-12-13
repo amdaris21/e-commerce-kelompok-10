@@ -57,7 +57,7 @@ class TransactionController extends Controller
         $product = Product::findOrFail($request->product_id);
         $subtotal = $product->price * $request->quantity;
 
-        $tax = 0; 
+        $tax = $subtotal * 0.11; 
         $serviceFee = 2000;
 
         $grandTotal = $subtotal + $shippingCost + $tax + $serviceFee;
