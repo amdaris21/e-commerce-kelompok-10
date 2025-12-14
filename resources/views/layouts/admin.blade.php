@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }} - Seller</title>
+        <title>{{ config('app.name', 'Laravel') }} - Admin</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -24,7 +24,7 @@
             }
         }" class="min-h-screen bg-[#0a0a0a] text-[#EDEDEC] flex">
             <!-- Sidebar -->
-            @include('layouts.seller-sidebar')
+            @include('layouts.admin-sidebar')
 
             <div class="flex-1 flex flex-col">
                  <!-- Top Navigation / Header for mobile and user dropdown -->
@@ -34,15 +34,10 @@
                             <div class="flex">
                                 <!-- Logo for Mobile -->
                                 <div class="shrink-0 flex items-center sm:hidden">
-                                     <a href="{{ route('seller.dashboard') }}">
+                                     <a href="{{ route('admin.dashboard') }}">
                                         <x-application-logo class="block h-9 w-auto fill-current text-[#EDEDEC]" />
                                     </a>
                                 </div>
-                            </div>
-
-                            <!-- Settings/Profile moved to Sidebar -->
-                            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                                <!-- Placeholders if needed, otherwise empty -->
                             </div>
 
                             <!-- Hamburger -->
@@ -98,7 +93,7 @@
                 @endisset
 
                 <!-- Page Content -->
-                <main class="flex-1 overflow-y-auto flex flex-col">
+                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-[#0a0a0a] flex flex-col">
                     <div class="flex-1">
                         {{ $slot }}
                     </div>
@@ -108,50 +103,30 @@
                 </main>
             </div>
         </div>
-
+        
+        <!-- SweetAlert2 -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            window.confirmLogout = function(e) {
-                e.preventDefault();
-                let form = e.target.closest('form');
+            function confirmLogout(event) {
+                event.preventDefault();
+                const form = event.target.closest('form');
+                
                 Swal.fire({
                     title: 'Apakah anda yakin ingin log out?',
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#000',
+                    confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Iya',
                     cancelButtonText: 'Tidak',
-                    background: '#1a1a1a',
-                    color: '#fff'
+                    background: '#1a1a1a', 
+                    color: '#ffffff'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         form.submit();
                     }
                 });
             }
-
-            // Handle standard form submits (Sidebar)
-            document.addEventListener('submit', function(e) {
-                if (e.target.action && e.target.action.includes('logout')) {
-                    e.preventDefault();
-                    Swal.fire({
-                        title: 'Apakah anda yakin ingin log out?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#000',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Iya',
-                        cancelButtonText: 'Tidak',
-                        background: '#1a1a1a',
-                        color: '#fff'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            e.target.submit();
-                        }
-                    });
-                }
-            });
         </script>
     </body>
 </html>

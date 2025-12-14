@@ -24,6 +24,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Store Registration (For Customers trying to become Sellers)
+    Route::get('/store/register', [StoreController::class, 'create'])->name('store.register');
+    Route::post('/store/register', [StoreController::class, 'store'])->name('store.store');
 });
 
 Route::middleware(['auth', 'verified', CheckSeller::class])
@@ -36,8 +40,6 @@ Route::middleware(['auth', 'verified', CheckSeller::class])
         Route::resource('products', ProductController::class);
 
         Route::controller(StoreController::class)->group(function () {
-            Route::get('/register', 'create')->name('store.register');
-            Route::post('/register', 'store')->name('store.store');
             Route::get('/manage', 'manage')->name('store.manage');
             Route::put('/manage', 'update')->name('store.update');
             Route::delete('/manage', 'destroy')->name('store.destroy');
@@ -74,8 +76,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/transactions/{transaction}', [TransactionController::class, 'detail'])->name('transaction.detail');
     Route::post('/transaction/{transaction}/confirm', [TransactionController::class, 'confirm'])->name('transaction.confirm');
     
-    // Cart
-    Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+});
+
+// Public Cart Routes (Auth + Guest)
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+
+// Admin Routes
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('dashboard');
+    Route::get('/verification', [\App\Http\Controllers\AdminController::class, 'verification'])->name('verification');
+    Route::get('/management', [\App\Http\Controllers\AdminController::class, 'management'])->name('management');
+    Route::post('/store/{id}/verify', [\App\Http\Controllers\AdminController::class, 'verifyStore'])->name('store.verify');
 });
 
 require __DIR__ . '/auth.php';

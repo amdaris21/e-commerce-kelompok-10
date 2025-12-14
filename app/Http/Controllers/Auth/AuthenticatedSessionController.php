@@ -28,12 +28,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        if ($request->user()->store) {
-             return redirect()->intended(route('seller.dashboard', absolute: false));
+        if ($request->user()->isAdmin()) {
+             return redirect()->intended(route('admin.dashboard', absolute: false));
         }
 
-        if ($request->user()->role === 'member') {
-            return redirect()->intended(route('customer.home', absolute: false));
+        if ($request->user()->store) {
+             return redirect()->intended(route('seller.dashboard', absolute: false));
         }
 
         return redirect()->intended(route('customer.home', absolute: false));

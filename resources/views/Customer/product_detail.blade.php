@@ -260,9 +260,25 @@
         margin: 8px 0 0;
         line-height: 1.4;
     }
+
+    /* Force Logo Contrast on Light Theme */
+    .brand-logo {
+        background: #000000 !important;
+        color: #FFFFFF !important;
+    }
 </style>
 
 <main class="container">
+    <div style="margin-bottom: 20px;">
+        <a href="{{ route('customer.home') }}" style="text-decoration: none; color: var(--teks); font-weight: 700; display: inline-flex; align-items: center; gap: 8px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 19L5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Kembali
+        </a>
+    </div>
+
     <div class="product-detail">
         <div class="product-photo">
             @if($product->thumbnail && $product->thumbnail->image)

@@ -12,14 +12,7 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        User::firstOrCreate(
-            ['email' => 'admin@example.com'],
-            [
-                'name' => 'admin',
-                'password' => bcrypt('password'),
-                'email_verified_at' => now(),
-            ]
-        );
+
 
         $this->call([
             AdminUserSeeder::class,      
