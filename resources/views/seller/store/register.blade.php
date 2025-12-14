@@ -64,12 +64,12 @@
                    <span class="text-black font-black text-xs tracking-tighter">Y2K</span>
                 </div>
                 <div>
-                    <h1 class="font-bold text-white text-lg tracking-tight">Seller Portal</h1>
-                    <p class="text-xs text-zinc-500 font-medium tracking-wide uppercase">Partner Program</p>
+                    <h1 class="font-bold text-white text-lg tracking-tight">Y2K Accessories</h1>
+                    <p class="text-xs text-zinc-500 font-medium tracking-wide uppercase">ring • necklace • bracelet • sunglasses • charms</p>
                 </div>
             </div>
             <a href="{{ route('dashboard') }}" class="text-sm font-medium text-zinc-400 hover:text-white transition-colors">
-                Back to Dashboard
+                Batalkan Membuat Toko
             </a>
         </div>
     </header>
@@ -80,7 +80,7 @@
             <div class="text-center mb-10">
                 <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Daftarkan Toko Anda</h2>
                 <p class="mt-3 text-lg text-zinc-400">
-                    Bergabunglah sebagai mitra resmi dan mulai kelola bisnis Y2K Anda secara profesional.
+                    Bergabunglah sebagai mitra resmi dan mulai kelola bisnis Y2K Accessories Anda secara profesional.
                 </p>
             </div>
 
@@ -88,7 +88,7 @@
                 <!-- Decorative Top Line -->
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
 
-                <form method="POST" action="{{ route('seller.store.store') }}" enctype="multipart/form-data" class="space-y-8">
+                <form method="POST" action="{{ route('store.store') }}" enctype="multipart/form-data" class="space-y-8">
                     @csrf
 
                     <!-- Section 1 -->
@@ -125,18 +125,46 @@
                             
                             <div class="md:col-span-2 space-y-2">
                                 <label class="block text-sm font-medium text-zinc-400 mb-2">Logo Brand</label>
-                                <div class="flex items-center justify-center w-full">
-                                    <label for="logo" class="flex flex-col items-center justify-center w-full h-32 border-2 border-zinc-700 border-dashed rounded-xl cursor-pointer bg-zinc-800/50 hover:bg-zinc-800 hover:border-indigo-500 transition-all group">
-                                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                            <svg class="w-8 h-8 mb-3 text-zinc-500 group-hover:text-indigo-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                                            <p class="mb-1 text-sm text-zinc-400 group-hover:text-zinc-200"><span class="font-semibold">Klik untuk upload</span></p>
-                                            <p class="text-xs text-zinc-600">SVG, PNG, JPG (Maks. 2MB)</p>
-                                        </div>
-                                        <input id="logo" name="logo" type="file" class="hidden" />
-                                    </label>
+                                <div class="relative w-full h-32 border-2 border-zinc-700 border-dashed rounded-xl bg-zinc-800/50 hover:bg-zinc-800 hover:border-indigo-500 transition-all overflow-hidden group">
+                                    
+                                    <!-- Prompt Stage -->
+                                    <div id="upload-prompt" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                                        <svg class="w-8 h-8 mb-2 text-zinc-500 group-hover:text-indigo-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                                        <p class="text-sm text-zinc-400 group-hover:text-zinc-200"><span class="font-semibold">Klik untuk upload</span></p>
+                                        <p class="text-xs text-zinc-600 mt-1">SVG, PNG, JPG (Maks. 2MB)</p>
+                                    </div>
+
+                                    <!-- Preview Stage -->
+                                    <img id="logo-preview" style="display: none;" class="absolute inset-0 w-full h-full object-cover" />
+
+                                    <!-- Visual Overlay on Hover (Optional, for edit hint) -->
+                                    <div id="edit-overlay" style="display: none;" class="absolute inset-0 bg-black/50 items-center justify-center pointer-events-none">
+                                        <svg class="w-8 h-8 text-white opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                                    </div>
+
+                                    <!-- Actual Input (Invisible Overlay) -->
+                                    <input id="logo" name="logo" type="file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-50" onchange="previewImage(event)" />
                                 </div>
                                 <x-input-error :messages="$errors->get('logo')" class="mt-1" />
                             </div>
+
+                            <script>
+                                function previewImage(event) {
+                                    const input = event.target;
+                                    const preview = document.getElementById('logo-preview');
+                                    const prompt = document.getElementById('upload-prompt');
+                                    
+                                    if (input.files && input.files[0]) {
+                                        const reader = new FileReader();
+                                        reader.onload = function(e) {
+                                            preview.src = e.target.result;
+                                            preview.style.display = 'block'; // Force display
+                                            if(prompt) prompt.style.display = 'none'; // Force hide prompt
+                                        }
+                                        reader.readAsDataURL(input.files[0]);
+                                    }
+                                }
+                            </script>
                         </div>
                     </div>
 
@@ -186,8 +214,8 @@
                 </form>
             </div>
             
-            <div class="text-center mt-8 text-zinc-600 text-sm">
-                &copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved under Seller Agreement.
+            <div class="mt-12">
+                <x-footer :simple="true" />
             </div>
 
         </div>

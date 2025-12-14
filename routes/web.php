@@ -96,6 +96,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Payment Verification
     Route::get('/payment-verification', [\App\Http\Controllers\AdminController::class, 'paymentVerification'])->name('payment.verification');
     Route::post('/payment-verification/{id}', [\App\Http\Controllers\AdminController::class, 'verifyPayment'])->name('payment.verify');
+
+    // Withdrawal Verification
+    Route::get('/withdrawal-verification', [\App\Http\Controllers\AdminController::class, 'withdrawalVerification'])->name('withdrawal.verification');
+    Route::post('/withdrawal-verification/{id}', [\App\Http\Controllers\AdminController::class, 'verifyWithdrawal'])->name('withdrawal.verify');
 });
 
 require __DIR__ . '/auth.php';

@@ -15,7 +15,7 @@
                 <!-- Left Column: Order Items & Info -->
                 <div class="md:col-span-2 space-y-6">
                     <!-- Order Items -->
-                    <div class="bg-[#161616] overflow-hidden shadow-sm sm:rounded-2xl border border-white/10">
+                    <div class="bg-[#161616] overflow-hidden shadow-sm sm:rounded-2xl border border-white/10 group hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] transition-all duration-500 hover:border-white/20">
                         <div class="p-6 bg-[#161616] border-b border-white/10">
                             <h3 class="text-lg font-bold mb-4 text-[#EDEDEC]">Produk yang Dipesan</h3>
                              <div class="overflow-x-auto">
@@ -50,7 +50,7 @@
                     </div>
 
                     <!-- Customer Info -->
-                    <div class="bg-[#161616] overflow-hidden shadow-sm sm:rounded-2xl border border-white/10">
+                    <div class="bg-[#161616] overflow-hidden shadow-sm sm:rounded-2xl border border-white/10 group hover:shadow-[0_0_30px_rgba(99,102,241,0.1)] transition-all duration-500 hover:border-indigo-500/20">
                          <div class="p-6 bg-[#161616] border-b border-white/10 text-[#EDEDEC]">
                             <h3 class="text-lg font-bold mb-4">Informasi Pengiriman</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -80,7 +80,7 @@
                 <div class="md:col-span-1 space-y-6">
                     
                     <!-- Order Summary -->
-                    <div class="bg-[#161616] overflow-hidden shadow-sm sm:rounded-2xl border border-white/10">
+                    <div class="bg-[#161616] overflow-hidden shadow-sm sm:rounded-2xl border border-white/10 group hover:shadow-[0_0_30px_rgba(16,185,129,0.1)] transition-all duration-500 hover:border-green-500/20">
                         <div class="p-6 bg-[#161616] border-b border-white/10 text-[#EDEDEC]">
                             <h3 class="text-lg font-bold mb-4">Ringkasan</h3>
                             <div class="flex justify-between mb-2">
@@ -113,7 +113,7 @@
                     </div>
 
                      <!-- Actions / Tracking Number -->
-                    <div class="bg-[#161616] overflow-hidden shadow-sm sm:rounded-2xl border border-white/10">
+                    <div class="bg-[#161616] overflow-hidden shadow-sm sm:rounded-2xl border border-white/10 group hover:shadow-[0_0_30px_rgba(59,130,246,0.1)] transition-all duration-500 hover:border-blue-500/20">
                          <div class="p-6 bg-[#161616] border-b border-white/10 text-[#EDEDEC]">
                              
                              @if (session('success'))
@@ -147,9 +147,12 @@
                                     @if($transaction->payment_status === 'paid')
                                         <form action="{{ route('seller.orders.confirm', $transaction->id) }}" method="POST">
                                             @csrf
-                                            <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" onclick="return confirm('Apakah anda yakin ingin mengirim pesanan ini? Resi akan dibuat otomatis.')">
-                                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
-                                                Kirim Pesanan
+                                            <button type="submit" class="w-full group/btn relative overflow-hidden flex justify-center py-3 px-4 border border-transparent shadow-sm text-sm font-bold rounded-xl text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all hover:scale-[1.02] hover:shadow-blue-500/50" onclick="return confirm('Apakah anda yakin ingin mengirim pesanan ini? Resi akan dibuat otomatis.')">
+                                                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500"></div>
+                                                <div class="flex items-center gap-2 relative z-10">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                                                    Kirim Pesanan
+                                                </div>
                                             </button>
                                         </form>
                                     @else

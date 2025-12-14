@@ -10,6 +10,7 @@ use App\Models\Transaction;
 use App\Models\StoreBalance;
 use App\Models\StoreBalanceHistory;
 use Illuminate\Support\Str;
+use App\Models\Withdrawal;
 
 class AdminController extends Controller
 {
@@ -147,6 +148,50 @@ class AdminController extends Controller
             ]);
             
             return redirect()->back()->with('success', 'Pembayaran ditolak. Bukti pembayaran di-reset.');
+        }
+
+        return redirect()->back()->with('error', 'Aksi tidak valid.');
+    }
+
+    public function withdrawalVerification()
+    {
+        $withdrawals = Withdrawal::where('status', 'pending')
+            ->with(['storeBalance.store'])
+            ->latest()
+            ->get();
+
+        return view('admin.withdrawal_verification', compact('withdrawals'));
+    }
+
+    public function verifyWithdrawal(Request $request, $id)
+    {
+        $withdrawal = Withdrawal::findOrFail($id);
+        $action = $request->input('action'); // 'approve' or 'reject'
+
+        if ($action === 'approve') {
+            $withdrawal->update(['status' => 'approved']);
+            return redirect()->back()->with('success', 'Penarikan dana disetujui.');
+        } elseif ($action === 'reject') {
+            DB::transaction(function () use ($withdrawal) {
+                // 1. Mark as Rejected
+                $withdrawal->update(['status' => 'rejected']);
+
+                // 2. Refund Balance to Store
+                $storeBalance = $withdrawal->storeBalance;
+                $storeBalance->increment('balance', $withdrawal->amount);
+
+                // 3. Record History (Refund)
+                StoreBalanceHistory::create([
+                    'store_balance_id' => $storeBalance->id,
+                    'type' => 'income', // Treated as income because money comes back
+                    'reference_id' => $withdrawal->id,
+                    'reference_type' => 'App\Models\Withdrawal',
+                    'amount' => $withdrawal->amount,
+                    'remarks' => 'Pengembalian Dana (Penarikan Ditolak)',
+                ]);
+            });
+
+            return redirect()->back()->with('success', 'Penarikan dana ditolak. Saldo dikembalikan ke toko.');
         }
 
         return redirect()->back()->with('error', 'Aksi tidak valid.');

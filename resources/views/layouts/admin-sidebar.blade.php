@@ -64,6 +64,14 @@
                     <div x-show="sidebarCollapsed" class="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 whitespace-nowrap">Verifikasi Pembayaran</div>
                 </a>
 
+                <a href="{{ route('admin.withdrawal.verification') }}" 
+                   :class="sidebarCollapsed ? 'justify-center' : ''"
+                   class="flex items-center px-3 py-2.5 rounded-lg group relative transition-colors duration-200 {{ request()->routeIs('admin.withdrawal.verification') ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <span x-show="!sidebarCollapsed" class="ml-4 font-medium whitespace-nowrap transition-opacity duration-200">Verifikasi Penarikan</span>
+                    <div x-show="sidebarCollapsed" class="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 whitespace-nowrap">Verifikasi Penarikan</div>
+                </a>
+
                 <a href="{{ route('admin.management') }}" 
                    :class="sidebarCollapsed ? 'justify-center' : ''"
                    class="flex items-center px-3 py-2.5 rounded-lg group relative transition-colors duration-200 {{ request()->routeIs('admin.management') ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">

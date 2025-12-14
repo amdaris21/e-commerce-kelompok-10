@@ -45,6 +45,9 @@ class StoreController extends Controller
         ]);
 
         $this->storeService->createStore($user->id, $validated, $request->file('logo'));
+        
+        // Update User Role to Seller
+        $user->update(['role' => 'seller']);
 
         return redirect()->route('seller.store.manage')->with('success', 'Pendaftaran toko berhasil! Status: Menunggu verifikasi Admin.');
     }

@@ -16,11 +16,9 @@
             
             @if(!Auth::user()->store && !Auth::user()->isAdmin())
             <div class="ml-auto">
-                 <form action="{{ route('store.register') }}" method="GET" onsubmit="return confirm('Apakah Anda yakin ingin membuka toko? Anda akan dialihkan ke halaman registrasi.');">
-                    <button type="submit" class="bg-white text-black text-xs font-bold px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
-                        BUKA TOKO
-                    </button>
-                 </form>
+                 <a href="{{ route('store.register') }}" onclick="return confirm('Apakah Anda yakin ingin membuka toko? Anda akan dialihkan ke halaman registrasi.');" class="bg-white text-black text-xs font-bold px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
+                    BUKA TOKO
+                 </a>
             </div>
             @endif
         </div>

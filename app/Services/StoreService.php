@@ -30,7 +30,7 @@ class StoreService
 
         if ($logo) {
             $path = $logo->store('store_logos', 'public');
-            $data['logo'] = 'storage/' . $path;
+            $data['logo'] = $path;
         }
 
         return $this->storeRepository->create($data);
@@ -40,13 +40,12 @@ class StoreService
     {
         if ($logo) {
             // Delete old logo if exists
-            if ($store->logo) {
-                $oldPath = str_replace('storage/', '', $store->logo);
-                Storage::disk('public')->delete($oldPath);
+            if ($store->logo && $store->logo !== 'wtc-logo.png') {
+                Storage::disk('public')->delete($store->logo);
             }
 
             $path = $logo->store('store_logos', 'public');
-            $data['logo'] = 'storage/' . $path;
+            $data['logo'] = $path;
         }
 
         return $this->storeRepository->update($store, $data);
@@ -54,9 +53,8 @@ class StoreService
 
     public function deleteStore($store)
     {
-        if ($store->logo) {
-            $path = str_replace('storage/', '', $store->logo);
-            Storage::disk('public')->delete($path);
+        if ($store->logo && $store->logo !== 'wtc-logo.png') {
+            Storage::disk('public')->delete($store->logo);
         }
 
         return $this->storeRepository->delete($store);
