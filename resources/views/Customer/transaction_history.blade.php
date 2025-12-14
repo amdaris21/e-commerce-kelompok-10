@@ -1,9 +1,6 @@
 <x-customer-layout>
     <style>
-        /* Hide Layout Header */
-        body > header {
-            display: none !important;
-        }
+
 
         :root{
             --bg: #FFFAFB; 
@@ -267,29 +264,16 @@
         }
     </style>
 
-    <!-- Manual Header (Synced with Homepage) -->
-    <header>
-        <div class="container header-bar">
-            <a href="{{ route('customer.home') }}" class="brand">
-                <div class="brand-logo">Y2K</div>
-                <div>
-                    <div class="brand-name">Y2K Accessories</div>
-                    <div class="brand-tag">ring • necklace • bracelet • charms</div>
-                </div>
-            </a>
-            
-            <div class="nav-group">
-                <a href="{{ route('customer.home') }}" class="nav-btn">
-                    <i class="fa-solid fa-house" style="margin-right:8px;"></i> Beranda
-                </a>
-                <a href="{{ route('profile.edit') }}" class="nav-btn">
-                    <i class="fa-solid fa-user" style="margin-right:8px;"></i> Profil
-                </a>
-            </div>
-        </div>
-    </header>
+
 
     <div class="history-container">
+        <a href="{{ route('customer.home') }}" style="text-decoration: none; color: var(--teks); display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; font-weight: 700;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 19L5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Kembali
+        </a>
         <h1 class="page-title">Riwayat Transaksi</h1>
 
         @if($transactions->isEmpty())

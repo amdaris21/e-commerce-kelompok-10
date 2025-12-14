@@ -141,6 +141,7 @@
         font-family: inherit;
         outline: none;
         transition: all 0.2s;
+        color-scheme: dark;
     }
     input:focus, textarea:focus, select:focus {
         border-color: var(--putih);
@@ -152,8 +153,10 @@
     input:-webkit-autofill:hover, 
     input:-webkit-autofill:focus, 
     input:-webkit-autofill:active{
-        -webkit-box-shadow: 0 0 0 30px #111 inset !important;
-        -webkit-text-fill-color: var(--putih) !important;
+        -webkit-box-shadow: 0 0 0 1000px #111 inset !important;
+        -webkit-text-fill-color: white !important;
+        caret-color: white !important;
+        color-scheme: dark;
         transition: background-color 5000s ease-in-out 0s;
     }
     textarea { min-height: 100px; resize: vertical; }
@@ -372,13 +375,7 @@
                     <img src="{{ asset('storage/' . ($product->thumbnail->image ?? ($product->images->first()->image ?? 'images/default-product.png'))) }}" alt="{{ $product->name }}" class="order-img">
                     <div class="order-info">
                         <div class="store-mini">
-                            @if(optional($product->store)->logo)
-                                <img src="{{ asset('storage/' . $product->store->logo) }}" alt="{{ $product->store->name }}">
-                            @else
-                                <div style="width:24px; height:24px; border-radius:50%; background:#333; display:grid; place-items:center; font-size:10px; font-weight:bold; color:#fff;">
-                                    {{ substr(optional($product->store)->name ?? 'S', 0, 1) }}
-                                </div>
-                            @endif
+                                <img src="{{ asset('images/wtc-logo.png') }}" alt="{{ $product->store->name }}">
                             <span>{{ optional($product->store)->name ?? 'Store' }}</span>
                         </div>
                         <div class="order-name">{{ $product->name }}</div>

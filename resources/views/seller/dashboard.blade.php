@@ -164,7 +164,7 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-bold text-gray-900">Rp {{ number_format($order->grand_total, 0, ',', '.') }}</div>
+                                        <div class="text-sm font-bold text-[#EDEDEC]">Rp {{ number_format($order->grand_total, 0, ',', '.') }}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if($order->payment_status === 'paid')

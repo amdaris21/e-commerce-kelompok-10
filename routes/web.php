@@ -75,6 +75,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/transactions', [TransactionController::class, 'history'])->name('transaction.history');
     Route::get('/transactions/{transaction}', [TransactionController::class, 'detail'])->name('transaction.detail');
     Route::post('/transaction/{transaction}/confirm', [TransactionController::class, 'confirm'])->name('transaction.confirm');
+    Route::post('/transaction/{transaction}/upload-proof', [TransactionController::class, 'uploadProof'])->name('transaction.upload_proof');
+    Route::post('/transaction/{transaction}/complete', [TransactionController::class, 'complete'])->name('transaction.complete');
+    Route::post('/transaction/{transaction}/review', [TransactionController::class, 'storeReview'])->name('transaction.review');
     
 });
 
@@ -89,6 +92,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/verification', [\App\Http\Controllers\AdminController::class, 'verification'])->name('verification');
     Route::get('/management', [\App\Http\Controllers\AdminController::class, 'management'])->name('management');
     Route::post('/store/{id}/verify', [\App\Http\Controllers\AdminController::class, 'verifyStore'])->name('store.verify');
+    
+    // Payment Verification
+    Route::get('/payment-verification', [\App\Http\Controllers\AdminController::class, 'paymentVerification'])->name('payment.verification');
+    Route::post('/payment-verification/{id}', [\App\Http\Controllers\AdminController::class, 'verifyPayment'])->name('payment.verify');
 });
 
 require __DIR__ . '/auth.php';

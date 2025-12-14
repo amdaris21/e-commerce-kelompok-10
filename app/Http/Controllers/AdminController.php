@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Store;
 use Illuminate\Support\Facades\DB;
+use App\Models\Transaction;
+use App\Models\StoreBalance;
+use App\Models\StoreBalanceHistory;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -86,6 +90,63 @@ class AdminController extends Controller
             // Delete the store or mark as rejected
             $store->delete(); // Simple rejection for now
             return redirect()->back()->with('success', 'Pengajuan toko ditolak.');
+        }
+
+        return redirect()->back()->with('error', 'Aksi tidak valid.');
+    }
+
+    public function paymentVerification()
+    {
+        $transactions = Transaction::where('payment_status', 'unpaid')
+            ->whereNotNull('proof_of_payment')
+            ->with(['buyer.user', 'store'])
+            ->get();
+
+        return view('admin.payment_verification', compact('transactions'));
+    }
+
+    public function verifyPayment(Request $request, $id)
+    {
+        $transaction = Transaction::findOrFail($id);
+        $action = $request->input('action'); // 'valid' or 'invalid'
+
+        if ($action === 'valid') {
+            DB::transaction(function () use ($transaction) {
+                // 1. Update Transaction
+                $transaction->update([
+                    'payment_status' => 'paid',
+                    'admin_verified_at' => now(),
+                ]);
+
+                // 2. Release Money to Seller
+                $storeBalance = StoreBalance::firstOrCreate(
+                    ['store_id' => $transaction->store_id],
+                    ['balance' => 0]
+                );
+
+                $amount = $transaction->grand_total; // Assuming full amount release
+
+                $storeBalance->increment('balance', $amount);
+
+                // 3. Record History
+                StoreBalanceHistory::create([
+                    'store_balance_id' => $storeBalance->id,
+                    'type' => 'income',
+                    'reference_id' => $transaction->id, // Using Transaction ID (ensure schema supports string/int or adjust)
+                    'reference_type' => 'App\Models\Transaction',
+                    'amount' => $amount,
+                    'remarks' => 'Penjualan #' . $transaction->code,
+                ]);
+            });
+
+            return redirect()->back()->with('success', 'Pembayaran diverifikasi. Dana diteruskan ke penjual.');
+        } elseif ($action === 'invalid') {
+            // Reject: Reset proof so user can re-upload
+            $transaction->update([
+                'proof_of_payment' => null,
+            ]);
+            
+            return redirect()->back()->with('success', 'Pembayaran ditolak. Bukti pembayaran di-reset.');
         }
 
         return redirect()->back()->with('error', 'Aksi tidak valid.');

@@ -13,9 +13,9 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
                 <!-- Left: Stats Grid -->
                 <div class="lg:col-span-2">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 h-full">
                         <!-- Total Users -->
-                        <div class="bg-[#161616] rounded-2xl p-6 shadow-sm border border-white/10 relative overflow-hidden group">
+                        <div class="bg-[#161616] rounded-2xl p-6 shadow-sm border border-white/10 relative overflow-hidden group h-full">
                             <div class="flex justify-between items-start z-10 relative">
                                 <div>
                                     <p class="text-xs font-medium text-gray-500 mb-1 uppercase tracking-wider">Total Users</p>
@@ -30,7 +30,7 @@
                         </div>
 
                         <!-- Total Sellers -->
-                        <div class="bg-[#161616] rounded-2xl p-6 shadow-sm border border-white/10 relative overflow-hidden group">
+                        <div class="bg-[#161616] rounded-2xl p-6 shadow-sm border border-white/10 relative overflow-hidden group h-full">
                             <div class="flex justify-between items-start z-10 relative">
                                 <div>
                                     <p class="text-xs font-medium text-gray-500 mb-1 uppercase tracking-wider">Total Sellers</p>
@@ -45,7 +45,7 @@
                         </div>
 
                         <!-- Total Stores -->
-                        <div class="bg-[#161616] rounded-2xl p-6 shadow-sm border border-white/10 relative overflow-hidden group">
+                        <div class="bg-[#161616] rounded-2xl p-6 shadow-sm border border-white/10 relative overflow-hidden group h-full">
                             <div class="flex justify-between items-start z-10 relative">
                                 <div>
                                     <p class="text-xs font-medium text-gray-500 mb-1 uppercase tracking-wider">Total Toko</p>
@@ -61,27 +61,56 @@
                     </div>
                 </div>
 
-                <!-- Right: Pending Verification -->
+                <!-- Right: Pending Verification (Creative & Interactive) -->
                 <div>
-                     <div class="bg-[#161616] rounded-2xl p-6 shadow-sm border border-white/10 relative overflow-hidden group h-full">
-                        <div class="flex justify-between items-start z-10 relative">
-                            <div>
-                                <p class="text-xs font-medium text-gray-500 mb-1 uppercase tracking-wider">Menunggu Verifikasi</p>
-                                <h3 class="text-3xl font-black text-[#EDEDEC] tracking-tight">
-                                    {{ number_format($pendingStores, 0, ',', '.') }}
-                                </h3>
-                                @if($pendingStores > 0)
-                                <div class="mt-2">
-                                    <a href="{{ route('admin.verification') }}" class="text-xs text-white hover:text-gray-300 font-bold inline-flex items-center gap-1 transition-colors border-b border-white/20 pb-0.5 hover:border-white">
-                                        REVIEW
-                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                                    </a>
+                     <div class="bg-[#161616] rounded-2xl p-0 shadow-sm border border-white/10 relative overflow-hidden group h-full transition-all duration-500 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)] hover:border-indigo-500/30">
+                        <!-- Animated Gradient Background Layer -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="absolute -right-10 -top-10 w-32 h-32 bg-indigo-500/20 rounded-full blur-3xl group-hover:bg-indigo-500/30 transition-all duration-500"></div>
+
+                        <div class="p-6 relative z-10 flex flex-col justify-between h-full">
+                            <div class="flex justify-between items-start">
+                                 <div>
+                                    <p class="text-xs font-bold text-indigo-400 mb-1 uppercase tracking-widest flex items-center gap-2">
+                                        Status Verifikasi
+                                        @if($pendingStores > 0)
+                                            <span class="flex h-2 w-2 relative">
+                                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                                              <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                                            </span>
+                                        @endif
+                                    </p>
+                                    <h3 class="text-3xl font-black text-white tracking-tight mt-2 flex items-baseline gap-2">
+                                        {{ number_format($pendingStores, 0, ',', '.') }}
+                                        <span class="text-sm font-medium text-gray-400">Toko Menunggu</span>
+                                    </h3>
+                                 </div>
+                                 
+                                 <!-- Animated Icon Box -->
+                                 <div class="p-3 bg-indigo-500/10 rounded-xl text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 shadow-[0_0_15px_rgba(99,102,241,0)] group-hover:shadow-[0_0_20px_rgba(99,102,241,0.4)]">
+                                    <svg class="w-6 h-6 transform transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                 </div>
+                            </div>
+                            
+                            @if($pendingStores > 0)
+                            <div class="mt-6 pt-0">
+                                <a href="{{ route('admin.verification') }}" class="w-full group/btn relative flex items-center justify-between bg-white text-black px-5 py-3 rounded-xl font-bold text-xs uppercase tracking-wider hover:bg-indigo-50 transition-all overflow-hidden shadow-[0_4px_14px_0_rgba(255,255,255,0.1)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.4)] hover:-translate-y-1">
+                                    <span class="relative z-10">Proses Sekarang</span>
+                                    <div class="flex items-center gap-1 relative z-10 transition-transform duration-300 group-hover/btn:translate-x-1">
+                                        <span class="bg-black/10 px-1.5 py-0.5 rounded text-[10px] tabular-nums">{{ $pendingStores }}</span>
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                                    </div>
+                                    <div class="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 opacity-0 group-hover/btn:opacity-10 transition-opacity duration-300"></div>
+                                </a>
+                            </div>
+                            @else
+                            <div class="mt-6 pt-4 border-t border-white/5">
+                                <div class="flex items-center gap-2 text-xs text-gray-500">
+                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>Tidak ada antrian verifikasi</span>
                                 </div>
-                                @endif
                             </div>
-                            <div class="p-2 bg-white/5 rounded-lg text-white group-hover:bg-white/10 transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

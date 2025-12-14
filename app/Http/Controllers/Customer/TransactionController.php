@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Buyer;
+use Illuminate\Support\Facades\Storage;
 
 class TransactionController extends Controller
 {
@@ -103,6 +104,74 @@ class TransactionController extends Controller
     {
 
         return redirect()->route('transaction.history')->with('success', 'Pembayaran dikonfirmasi. Silakan tunggu verifikasi.');
+    }
+
+    public function complete(Transaction $transaction)
+    {
+        if ($transaction->delivery_status !== 'shipped') {
+            return redirect()->back()->with('error', 'Pesanan belum dikirim.');
+        }
+
+        $transaction->update([
+            'delivery_status' => 'success'
+        ]);
+
+        return redirect()->back()->with('success', 'Terima kasih! Pesanan telah diterima.');
+    }
+
+    public function storeReview(Request $request, Transaction $transaction)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'rating' => 'required|integer|min:1|max:5',
+            'review' => 'required|string|max:500',
+        ]);
+
+        \App\Models\ProductReview::create([
+            'transaction_id' => $transaction->id,
+            'product_id' => $request->product_id,
+            'rating' => $request->rating,
+            'review' => $request->review,
+        ]);
+
+        return redirect()->back()->with('success', 'Ulasan berhasil dikirim!');
+    }
+
+    public function checkScanStatus(Transaction $transaction)
+    {
+        // Simulate checking with payment gateway/QR provider
+        if (!session()->has('scan_start_' . $transaction->id)) {
+            session(['scan_start_' . $transaction->id => now()]);
+            return response()->json(['scanned' => false]);
+        }
+        
+        $startTime = session('scan_start_' . $transaction->id);
+        
+        // Simulate a 5-8 second delay for "detection"
+        if (now()->diffInSeconds($startTime) > 10) {
+            return response()->json(['scanned' => true]);
+        }
+
+        return response()->json(['scanned' => false]);
+    }
+
+    public function uploadProof(Request $request, Transaction $transaction)
+    {
+        $request->validate([
+            'proof_of_payment' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        if ($request->hasFile('proof_of_payment')) {
+            $path = $request->file('proof_of_payment')->store('payment_proofs', 'public');
+            
+            $transaction->update([
+                'proof_of_payment' => $path,
+            ]);
+            
+            return redirect()->back()->with('success', 'Bukti pembayaran berhasil diupload. Mohon tunggu verifikasi admin.');
+        }
+
+        return redirect()->back()->with('error', 'Gagal mengupload bukti pembayaran.');
     }
 
     public function history()

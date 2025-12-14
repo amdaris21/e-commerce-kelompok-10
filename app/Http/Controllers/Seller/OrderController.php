@@ -48,7 +48,7 @@ class OrderController extends Controller
         $storeId = $this->getSellerStoreId();
         $transaction = Transaction::where('store_id', $storeId)->findOrFail($id);
 
-        if ($transaction->delivery_status !== 'pending') {
+        if ($transaction->delivery_status !== 'pending' && !is_null($transaction->delivery_status)) {
             return redirect()->back()->with('error', 'Pesanan sudah diproses.');
         }
 
@@ -67,7 +67,7 @@ class OrderController extends Controller
         $storeId = $this->getSellerStoreId();
         $transaction = Transaction::where('store_id', $storeId)->findOrFail($id);
 
-        if ($transaction->delivery_status !== 'pending') {
+        if ($transaction->delivery_status !== 'pending' && !is_null($transaction->delivery_status)) {
             return redirect()->back()->with('error', 'Pesanan sudah diproses.');
         }
 

@@ -354,9 +354,14 @@
 
             @forelse ($product->productReviews as $review)
                 <div class="review">
-                    <strong>{{ $review->user->name }}</strong> 
+                    <strong>{{ $review->transaction->buyer->user->name ?? 'Anonymous' }}</strong> 
                     <span class="review-date"> - {{ $review->created_at->format('d M Y') }}</span>
-                    <p>{{ $review->comment }}</p>
+                    <div style="color: #FFC107; font-size: 14px; margin: 4px 0;">
+                        @for($i=1; $i<=5; $i++)
+                            <span>{{ $i <= $review->rating ? '★' : '☆' }}</span>
+                        @endfor
+                    </div>
+                    <p>{{ $review->review }}</p>
                 </div>
             @empty
                 <p>Belum ada ulasan untuk produk ini.</p>
